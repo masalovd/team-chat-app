@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { AuthProvider, SignInFlow } from "../types";
 import { useState } from "react";
 import { useAuthActions } from "@convex-dev/auth/react";
+import { TriangleAlert } from "lucide-react";
 
 interface SignInCardProps {
   setState: (state: SignInFlow) => void;
@@ -16,15 +17,28 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
+
+  const handlePasswordSignIn = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setPending(true);
+    signIn("password", { email, password, flow: "signIn" })
+      .catch(() => {
+        setError("Invalid email or password");
+      })
+      .finally(() => {
+        setPending(false);
+      });
+  };
 
   const handleProviderSignIn = (value: AuthProvider) => {
     setPending(true);
     signIn(value)
       .finally(() => {
         setPending(false);
-      }
-    );
+      });
   }
 
   return (
@@ -37,9 +51,15 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
           Please enter your email and password to sign in.
         </CardDescription>
       </CardHeader>
+      {error && (
+        <div className="bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-destructive mb-0.6">
+          <TriangleAlert className="size-4" />
+          {error}
+        </div>
+      )}
       <CardContent className="space-y-5 px-0 pb-0">
-        <form action="" className="space-y-2.5">
-          <Input 
+        <form onSubmit={handlePasswordSignIn} className="space-y-2.5">
+          <Input
             disabled={pending}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -47,7 +67,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
             type="email"
             required
           />
-          <Input 
+          <Input
             disabled={pending}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -59,16 +79,16 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
             Sign In
           </Button>
         </form>
-        <Separator/>
+        <Separator />
         <div className="flex flex-col gap-y-2.5">
-          <Button 
-          disabled={pending}
-          variant={"outline"}
-          onClick={() => handleProviderSignIn("google")}
-          size={"lg"}
-          className="w-full relative"
+          <Button
+            disabled={pending}
+            variant={"outline"}
+            onClick={() => handleProviderSignIn("google")}
+            size={"lg"}
+            className="w-full relative"
           >
-            <FcGoogle className="size-5 absolute top-2.5 left-2.5"/>
+            <FcGoogle className="size-5 absolute top-2.5 left-2.5" />
             Continue with Google
           </Button>
         </div>
