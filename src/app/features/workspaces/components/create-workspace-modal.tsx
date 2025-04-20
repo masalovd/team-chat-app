@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useCreateWorkspace } from "../api/use-create-workspace";
 import { useCreateWorkspaceModal } from "../store/use-create-workspace-modal";
 
+import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import {
   Dialog,
@@ -33,8 +34,9 @@ export const CreateWorkspaceModal = () => {
     mutate(
       { name },
       {
-        onSuccess: (workspaceId) => {
-          router.push(`/workspace/${workspaceId}`);
+        onSuccess: (id) => {
+          toast.success("Workspace created successfully");
+          router.push(`/workspace/${id}`);
           handleClose();
         }
       })

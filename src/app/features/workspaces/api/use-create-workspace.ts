@@ -13,6 +13,7 @@ type Options = {
   onSettled?: () => void;
   throwError?: boolean;
 };
+
 export const useCreateWorkspace = () => {
   const [data, setData] = useState<ResponseType>(null);
   const [error, setError] = useState<Error | null>(null);
