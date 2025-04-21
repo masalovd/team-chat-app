@@ -44,7 +44,6 @@ export const CreateWorkspaceModal = () => {
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogTrigger />
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Create Workspace</DialogTitle>
