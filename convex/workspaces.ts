@@ -9,7 +9,7 @@ export const createWorkspace = mutation({
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
 
-    if (userId === null) {
+    if (!userId) {
       throw new Error("User not authenticated");
     }
 
@@ -30,5 +30,22 @@ export const getWorkspaces = query({
   handler: async (ctx) => {
     const workspaces = await ctx.db.query("workspaces").collect();
     return workspaces;
+  },
+});
+
+export const getWorkspace = query({
+  args: {
+    id: v.id("workspaces"),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    // TODO: Extract user auth check to a separate function
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+
+    const workspace = await ctx.db.get(args.id);
+
+    return workspace;
   },
 });
