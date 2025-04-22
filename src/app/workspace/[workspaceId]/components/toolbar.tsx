@@ -5,7 +5,7 @@ import { Info, Search } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
-const Toolbar = () => {
+export const Toolbar = () => {
   const workspaceId = useWorkspaceId();
   const { data } = useGetWorkspace({ id: workspaceId });
 
@@ -28,5 +28,3 @@ const Toolbar = () => {
     </nav>
   );
 }
-
-export default Toolbar;
