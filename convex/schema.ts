@@ -9,6 +9,14 @@ const schema = defineSchema({
     userId: v.id("users"),
     joinCode: v.string(),
   }),
+  members: defineTable({
+    userId: v.id("users"),
+    workspaceId: v.id("workspaces"),
+    role: v.union(v.literal("admin"), v.literal("member")),
+  })
+    .index("by_userId", ["userId"])
+    .index("by_workspaceId", ["workspaceId"])
+    .index("by_workspaceId_userId", ["workspaceId", "userId"]),
 });
 
 export default schema;
