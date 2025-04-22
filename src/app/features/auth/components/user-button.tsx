@@ -8,17 +8,17 @@ import { Loader, LogOut } from "lucide-react";
 
 export const UserButton = () => {
   const { signOut } = useAuthActions();
-  const { data, isLoading } = useCurrentUser();
+  const { data: user, isLoading } = useCurrentUser();
 
   if (isLoading) {
     return <Loader className="size-4 animate-spin text-muted-foreground" />
   };
 
-  if (!data) {
+  if (!user) {
     return null;
   };
 
-  const { name, image } = data;
+  const { name, image } = user;
   const avatarFallback = name!.charAt(0).toUpperCase();
 
   return (

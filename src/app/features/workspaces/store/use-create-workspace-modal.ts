@@ -1,7 +1,16 @@
-import { atom, useAtom } from "jotai";
+import { create } from "zustand";
 
-const modalState = atom(false);
+interface CreateWorkspaceModalState {
+  open: boolean;
+  setOpen: (newOpen: boolean) => void;
+}
 
-export const useCreateWorkspaceModal = () => {
-  return useAtom(modalState);
-};
+export const useCreateWorkspaceModal = create<CreateWorkspaceModalState>()(
+  (set) => ({
+    open: false,
+    setOpen: (newOpen) =>
+      set(() => ({
+        open: newOpen,
+      })),
+  })
+);

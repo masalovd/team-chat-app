@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 
 export const CreateWorkspaceModal = () => {
   const router = useRouter();
-  const [open, setOpen] = useCreateWorkspaceModal();
+  const { open, setOpen } = useCreateWorkspaceModal();
   const [name, setName] = useState("");
 
   const { mutate, isPending } = useCreateWorkspace();

@@ -13,12 +13,13 @@ interface SignInCardProps {
 };
 
 export const SignInCard = ({ setState }: SignInCardProps) => {
-  const { signIn } = useAuthActions();
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState("");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [pending, setPending] = useState(false);
+
+  const { signIn } = useAuthActions();
 
   const handlePasswordSignIn = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

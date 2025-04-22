@@ -9,11 +9,10 @@ import { useCreateWorkspaceModal } from "./features/workspaces/store/use-create-
 
 export default function Home() {
   const router = useRouter();
-  const [open, setOpen] = useCreateWorkspaceModal();
+  const { open, setOpen } = useCreateWorkspaceModal();
+  const { data: workspaces, isLoading } = useGetWorkspaces();
 
-  const { data, isLoading } = useGetWorkspaces();
-
-  const workspaceId = useMemo(() => data?.[0]?._id, [data]);
+  const workspaceId = useMemo(() => workspaces?.[0]?._id, [workspaces]);
 
   useEffect(() => {
     if (isLoading) return;
@@ -27,7 +26,7 @@ export default function Home() {
 
   return (
     <div>
-      <UserButton></UserButton>
+      <UserButton />
     </div>
   );
 }
