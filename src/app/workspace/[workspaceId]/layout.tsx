@@ -1,7 +1,7 @@
 "use client";
 
-import Sidebar from "./components/sidebar";
-import Toolbar from "./components/toolbar";
+import { Sidebar } from "./components/sidebar";
+import { Toolbar } from "./components/toolbar";
 
 interface WorkspaceIdLayoutProps {
   children: React.ReactNode;

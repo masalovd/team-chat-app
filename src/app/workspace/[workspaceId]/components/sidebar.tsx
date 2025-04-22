@@ -1,5 +1,5 @@
 import { UserButton } from "@/app/features/auth/components/user-button";
-import WorkspaceSwitcher from "./workspace-switcher";
+import { WorkspaceSwitcher } from "./workspace-switcher";
 import { SidebarButton } from "./sidebar-button";
 import { GalleryVerticalEnd, Home, MessageCircle } from "lucide-react";
 
