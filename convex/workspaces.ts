@@ -20,7 +20,7 @@ export const createWorkspace = mutation({
     const userId = await getAuthUserId(ctx);
 
     if (!userId) {
-      throw new Error("User not authenticated");
+      return null;
     }
 
     const joinCode = generateCode(6);
@@ -76,7 +76,7 @@ export const getWorkspace = query({
     const userId = await getAuthUserId(ctx);
     // TODO: Extract user auth check to a separate function
     if (!userId) {
-      throw new Error("User not authenticated");
+      return null;
     }
 
     const member = await ctx.db
