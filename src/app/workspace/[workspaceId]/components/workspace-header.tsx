@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Hint } from "@/components/hint";
+import { PreferencesModal } from "./preferences-modal";
 
 
 interface WorkspaceHeaderProps {
@@ -23,7 +24,7 @@ export const WorkspaceHeader = ({
   workspace,
   isAdmin,
 }: WorkspaceHeaderProps) => {
-  const [preferenceOpen, setPreferenceOpen] = useState(false);
+  const [preferencesOpen, setPreferencesOpen] = useState(false);
   const [inviteOpen, setInviteOpen] = useState(false);
 
   return (
@@ -33,12 +34,12 @@ export const WorkspaceHeader = ({
         setOpen={setInviteOpen}
         name={workspace.name}
         joinCode={workspace.joinCode}
-      />
-      <PreferenceModal
-        open={preferenceOpen}
-        setOpen={setPreferenceOpen}
-        initialVlaue={workspace.name}
       /> */}
+      <PreferencesModal
+        open={preferencesOpen}
+        setOpen={setPreferencesOpen}
+        initialValue={workspace.name}
+      />
       <div className="flex items-center justify-between px-4 h-[49px] gap-0.5">
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
@@ -75,7 +76,7 @@ export const WorkspaceHeader = ({
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   className="cursor-pointer py-2"
-                  onClick={() => setPreferenceOpen(true)}
+                  onClick={() => setPreferencesOpen(true)}
                 >
                   Preferences
                 </DropdownMenuItem>
