@@ -37,6 +37,11 @@ export const createWorkspace = mutation({
       role: "admin",
     });
 
+    await ctx.db.insert("channels", {
+      name: "general",
+      workspaceId,
+    });
+
     return workspaceId;
   },
 });
@@ -76,7 +81,7 @@ export const getWorkspace = query({
     const userId = await getAuthUserId(ctx);
     // TODO: Extract user auth check to a separate function
     if (!userId) {
-      throw new Error("Unauthorized!");
+      return null;
     }
 
     const member = await ctx.db
