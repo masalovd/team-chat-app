@@ -8,11 +8,15 @@ const populateUser = (ctx: QueryCtx, id: Id<"users">) => {
 };
 
 export const get = query({
-  args: { workspaceId: v.id("workspaces") },
+  args: {
+    workspaceId: v.id("workspaces"),
+  },
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
 
-    if (!userId) return [];
+    if (userId === null) {
+      return [];
+    }
 
     const member = await ctx.db
       .query("members")
@@ -21,7 +25,9 @@ export const get = query({
       )
       .unique();
 
-    if (!member) return [];
+    if (!member) {
+      return [];
+    }
 
     const data = await ctx.db
       .query("members")
@@ -39,9 +45,9 @@ export const get = query({
           user,
         });
       }
-
-      return members;
     }
+
+    return members;
   },
 });
 
