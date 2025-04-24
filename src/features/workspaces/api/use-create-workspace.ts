@@ -24,7 +24,7 @@ export const useCreateWorkspace = () => {
   const isSuccess = useMemo(() => status === "success", [status]);
   const isError = useMemo(() => status === "error", [status]);
 
-  const mutation = useMutation(api.workspaces.createWorkspace);
+  const mutation = useMutation(api.workspaces.create);
 
   const mutate = useCallback(
     async (args: RequestType, options?: Options) => {

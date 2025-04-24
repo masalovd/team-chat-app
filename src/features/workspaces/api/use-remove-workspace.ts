@@ -24,7 +24,7 @@ export const useRemoveWorkspace = () => {
   const isSuccess = useMemo(() => status === "success", [status]);
   const isError = useMemo(() => status === "error", [status]);
 
-  const mutation = useMutation(api.workspaces.removeWorkspace);
+  const mutation = useMutation(api.workspaces.remove);
 
   const mutate = useCallback(
     async (args: RequestType, options?: Options) => {

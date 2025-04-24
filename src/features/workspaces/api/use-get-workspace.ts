@@ -8,7 +8,7 @@ interface UseGetWorkspaceOptions {
 }
 
 export const useGetWorkspace = ({ id }: UseGetWorkspaceOptions) => {
-  const data = useQuery(api.workspaces.getWorkspace, { id });
+  const data = useQuery(api.workspaces.getById, { id });
   const isLoading = data === undefined;
 
   return { data, isLoading };

@@ -12,7 +12,7 @@ const generateCode = (codeLength: number) => {
   return code;
 };
 
-export const createWorkspace = mutation({
+export const create = mutation({
   args: {
     name: v.string(),
   },
@@ -46,7 +46,7 @@ export const createWorkspace = mutation({
   },
 });
 
-export const getWorkspaces = query({
+export const get = query({
   args: {},
   handler: async (ctx) => {
     const userId = await getAuthUserId(ctx);
@@ -73,7 +73,7 @@ export const getWorkspaces = query({
   },
 });
 
-export const getWorkspace = query({
+export const getById = query({
   args: {
     id: v.id("workspaces"),
   },
@@ -101,7 +101,7 @@ export const getWorkspace = query({
   },
 });
 
-export const updateWorkspace = mutation({
+export const update = mutation({
   args: {
     id: v.id("workspaces"),
     name: v.string(),
@@ -130,7 +130,7 @@ export const updateWorkspace = mutation({
   },
 });
 
-export const removeWorkspace = mutation({
+export const remove = mutation({
   args: {
     id: v.id("workspaces"),
   },
@@ -166,6 +166,38 @@ export const removeWorkspace = mutation({
 
     // Remove workspace
     await ctx.db.delete(args.id);
+
+    return args.id;
+  },
+});
+
+export const newJoinCode = mutation({
+  args: {
+    id: v.id("workspaces"),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+
+    if (!userId) {
+      throw new Error("Unauthorized!");
+    }
+
+    const member = await ctx.db
+      .query("members")
+      .withIndex("by_workspaceId_userId", (q) =>
+        q.eq("workspaceId", args.id).eq("userId", userId)
+      )
+      .unique();
+
+    if (!member || member.role !== "admin") {
+      throw new Error("Unauthorized!");
+    }
+
+    const joinCode = generateCode(6);
+
+    await ctx.db.patch(args.id, {
+      joinCode,
+    });
 
     return args.id;
   },

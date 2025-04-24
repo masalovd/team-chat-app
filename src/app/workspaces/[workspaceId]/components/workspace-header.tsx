@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Hint } from "@/components/hint";
 import { PreferencesModal } from "./preferences-modal";
+import { InviteModal } from "./invite-modal";
 
 
 interface WorkspaceHeaderProps {
@@ -29,12 +30,12 @@ export const WorkspaceHeader = ({
 
   return (
     <>
-      {/* <InviteModal
+      <InviteModal
         open={inviteOpen}
         setOpen={setInviteOpen}
         name={workspace.name}
         joinCode={workspace.joinCode}
-      /> */}
+      />
       <PreferencesModal
         open={preferencesOpen}
         setOpen={setPreferencesOpen}
