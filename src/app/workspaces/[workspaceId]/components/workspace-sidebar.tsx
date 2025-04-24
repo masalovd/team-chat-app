@@ -7,6 +7,7 @@ import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
 import { useCreateChannelModal } from "@/features/channels/store/use-create-channel-modal";
 
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
+import { useChannelId } from "@/hooks/use-channel-id";
 
 import { WorkspaceHeader } from "./workspace-header";
 import { WorkspaceSection } from "./workspace-section";
@@ -15,6 +16,7 @@ import { UserItem } from "./user-item";
 
 export const WorkspaceSidebar = () => {
   const workspaceId = useWorkspaceId();
+  const channelId = useChannelId();
 
   const setOpen = useCreateChannelModal((state) => state.setOpen);
 
@@ -71,10 +73,10 @@ export const WorkspaceSidebar = () => {
             id={item._id}
             label={item.name}
             icon={HashIcon}
+            variant={item._id === channelId ? "active" : "default"}
           />
         ))}
       </WorkspaceSection>
-      {/* TODO: Display not yourself but other users */}
       <WorkspaceSection
         label="Direct messages"
         hint="New direct message"
