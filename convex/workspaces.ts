@@ -73,6 +73,7 @@ export const get = query({
   },
 });
 
+// Info accessible for the user only if he is a member of the workspace
 export const getById = query({
   args: {
     id: v.id("workspaces"),
@@ -98,6 +99,34 @@ export const getById = query({
     const workspace = await ctx.db.get(args.id);
 
     return workspace;
+  },
+});
+
+// Info accessible for the user even if he is not a member of the workspace
+export const getInfoById = query({
+  args: {
+    id: v.id("workspaces"),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+
+    if (!userId) {
+      return null;
+    }
+
+    const member = await ctx.db
+      .query("members")
+      .withIndex("by_workspaceId_userId", (q) =>
+        q.eq("workspaceId", args.id).eq("userId", userId)
+      )
+      .unique();
+
+    const workspace = await ctx.db.get(args.id);
+
+    return {
+      name: workspace?.name,
+      isMember: !!member,
+    };
   },
 });
 

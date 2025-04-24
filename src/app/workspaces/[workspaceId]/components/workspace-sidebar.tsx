@@ -74,6 +74,7 @@ export const WorkspaceSidebar = () => {
           />
         ))}
       </WorkspaceSection>
+      {/* TODO: Display not yourself but other users */}
       <WorkspaceSection
         label="Direct messages"
         hint="New direct message"
