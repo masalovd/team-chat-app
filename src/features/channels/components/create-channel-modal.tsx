@@ -36,23 +36,23 @@ export const CreateChannelModal = () => {
     setName(value);
   };
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     mutate({
       name,
       workspaceId,
-    })
-      .then((channelId) => {
-        // router.push(`/workspaces/${workspaceId}/channels/${channelId}`);
+    }, {
+      onSuccess: (channelId) => {
+        router.push(`/workspaces/${workspaceId}/channels/${channelId}`);
         handleClose();
         toast.success("Channel has been created successfully!");
-      })
-      .catch((error) => {
-        console.error(error);
+      },
+      onError: () => {
         toast.error("Failed to create channel!");
-      });
-  };
+      }
+    });
+  }
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
