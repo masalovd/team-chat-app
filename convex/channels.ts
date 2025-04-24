@@ -39,7 +39,9 @@ export const get = query({
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
 
-    if (!userId) return [];
+    if (userId === null) {
+      return [];
+    }
 
     const member = await ctx.db
       .query("members")
