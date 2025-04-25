@@ -3,7 +3,7 @@ import React from "react";
 import { PlusIcon } from "lucide-react";
 import { FaCaretRight } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
-import { Hint } from "@/components/hint";
+import { Hint } from "@/components/reusables/hint";
 
 import { cn } from "@/lib/utils";
 import { useToggle } from "react-use";

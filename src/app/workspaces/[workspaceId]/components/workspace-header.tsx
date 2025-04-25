@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Hint } from "@/components/hint";
+import { Hint } from "@/components/reusables/hint";
 import { PreferencesModal } from "./preferences-modal";
 import { InviteModal } from "./invite-modal";
 

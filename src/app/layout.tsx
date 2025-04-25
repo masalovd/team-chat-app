@@ -5,7 +5,7 @@ import "./globals.css";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import { ConvexClientProvider } from "@/components/convex-client-provider";
 
-import { Modals } from "@/components/modals";
+import { Modals } from "@/components/reusables/modals";
 import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
