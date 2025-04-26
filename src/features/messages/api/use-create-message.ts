@@ -9,7 +9,7 @@ type RequestType = {
   workspaceId: Id<"workspaces">;
   channelId?: Id<"channels">;
   parentMessageId?: Id<"messages">;
-  // TODO: conversationId
+  conversationId?: Id<"conversations">;
 };
 type ResponseType = Id<"messages"> | null;
 type StatusType = "pending" | "success" | "error" | "settled" | null;
