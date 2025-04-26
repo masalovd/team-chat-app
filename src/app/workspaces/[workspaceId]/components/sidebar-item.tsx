@@ -60,6 +60,7 @@ export const SidebarItem = ({
       asChild
       className={cn(sidebarItemVariants({ variant }))}
     >
+      {/* TODO: Make other routes to go not only to the channels */}
       <Link href={`/workspaces/${workspaceId}/channels/${id}`}>
         <Icon className="size-3.5 mr-1 shrink-0" />
         <span className="text-sm truncate">{label}</span>

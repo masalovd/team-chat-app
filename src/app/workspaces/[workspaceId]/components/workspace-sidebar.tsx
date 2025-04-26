@@ -54,7 +54,6 @@ export const WorkspaceSidebar = () => {
           label="Threads"
           id="threads"
           icon={MessageSquareText}
-          variant="active"
         />
         <SidebarItem
           label="Drafts and Sent"
