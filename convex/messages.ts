@@ -122,6 +122,8 @@ export const get = query({
               ? await ctx.storage.getUrl(message.image)
               : undefined;
 
+            // !: Counting will be done for equal reactions
+            // !: In result we will get duplicate records (reaction, count)
             const reactionsWithCounts = reactions.map((reaction) => {
               return {
                 ...reaction,
