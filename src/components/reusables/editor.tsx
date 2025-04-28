@@ -31,7 +31,7 @@ interface EditorProps {
   variant?: "create" | "update";
   onSubmit: ({ image, body }: EditorValue) => void;
   onCancel?: () => void;
-  placeholder: string;
+  placeholder?: string;
   defaultValue?: Delta | Op[];
   disabled?: boolean;
   innerRef?: MutableRefObject<Quill | null>;

@@ -41,7 +41,9 @@ export const MessageToolbar = ({
             <Button
               variant={"ghost"}
               size={"iconSm"}
-              disabled={isPending}>
+              disabled={isPending}
+              onClick={handleThread}
+            >
               <MessageSquareIcon className="size-4" />
             </Button>
           </Hint>
@@ -51,7 +53,9 @@ export const MessageToolbar = ({
             <Button
               variant={"ghost"}
               size={"iconSm"}
-              disabled={isPending}>
+              disabled={isPending}
+              onClick={handleEdit}
+            >
               <PencilIcon className="size-4" />
             </Button>
           </Hint>
@@ -61,7 +65,9 @@ export const MessageToolbar = ({
             <Button
               variant={"ghost"}
               size={"iconSm"}
-              disabled={isPending}>
+              disabled={isPending}
+              onClick={handleDelete}
+            >
               <Trash2Icon className="size-4" />
             </Button>
           </Hint>
