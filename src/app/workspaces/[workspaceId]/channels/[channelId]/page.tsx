@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertTriangle, Loader } from "lucide-react";
+import { AlertTriangle, LoaderIcon } from "lucide-react";
 
 import { Header } from "./components/header";
 import { ChatInput } from "./components/chat-input";
@@ -19,7 +19,7 @@ const ChannelIdPage = () => {
   if (isChannelLoading || status === "LoadingFirstPage") {
     return (
       <div className="h-full flex-1 flex items-center justify-center">
-        <Loader className="animate-spin size-5 text-muted-foreground" />
+        <LoaderIcon className="animate-spin size-5 text-muted-foreground" />
       </div>
     )
   }

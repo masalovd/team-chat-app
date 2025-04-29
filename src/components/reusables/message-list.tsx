@@ -12,6 +12,13 @@ import { LoaderIcon } from "lucide-react";
 
 const TIME_THRESHOLD = 5;
 
+const formatDateLabel = (dateStr: string) => {
+  const date = new Date(dateStr);
+  if (isToday(date)) return "Today";
+  if (isYesterday(date)) return "Yesterday";
+  return format(date, "EEEE, MMMM d");
+};
+
 interface MessageListProps {
   memberName?: string;
   memberImage?: string;
@@ -39,13 +46,6 @@ export const MessageList = ({
 
   const workspaceId = useWorkspaceId();
   const { data: currentMember } = useCurrentMember({ workspaceId })
-
-  const formatDateLabel = (dateStr: string) => {
-    const date = new Date(dateStr);
-    if (isToday(date)) return "Today";
-    if (isYesterday(date)) return "Yesterday";
-    return format(date, "EEEE, MMMM d");
-  };
 
   const groupedMessages = data?.reduce(
     (groups, message) => {

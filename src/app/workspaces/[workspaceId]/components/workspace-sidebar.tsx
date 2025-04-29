@@ -1,4 +1,4 @@
-import { HashIcon, Loader, MessageSquareText, SendHorizonal, TriangleAlert } from "lucide-react";
+import { HashIcon, LoaderIcon, MessageSquareText, SendHorizonal, TriangleAlert } from "lucide-react";
 
 import { useGetMembers } from "@/features/members/api/use-get-members";
 import { useGetChannels } from "@/features/channels/api/use-get-channels";
@@ -29,7 +29,7 @@ export const WorkspaceSidebar = () => {
   if (isCurrentMemberLoading || isCurrentWorkspaceLoading) {
     return (
       <div className="flex flex-col bg-[#7F92DC] h-full items-center justify-center">
-        <Loader className="size-5 animate-spin text-white" />
+        <LoaderIcon className="size-5 animate-spin text-white" />
       </div>
     )
   }

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Loader } from "lucide-react";
+import { LoaderIcon } from "lucide-react";
 import { toast } from "sonner";
 import VerificationInput from "react-verification-input";
 
@@ -50,7 +50,7 @@ const JoinPage = () => {
   if (isLoading) {
     return (
       <div className="h-full flex items-center justify-center">
-        <Loader className="size-6 animate-spin text-muted-foreground" />
+        <LoaderIcon className="size-6 animate-spin text-muted-foreground" />
       </div>
     );
   }

@@ -4,14 +4,14 @@ import { useAuthActions } from "@convex-dev/auth/react";
 import { useCurrentUser } from "../api/use-current-user";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Loader, LogOut } from "lucide-react";
+import { LoaderIcon, LogOut } from "lucide-react";
 
 export const UserButton = () => {
   const { signOut } = useAuthActions();
   const { data: user, isLoading } = useCurrentUser();
 
   if (isLoading) {
-    return <Loader className="size-4 animate-spin text-muted-foreground" />
+    return <LoaderIcon className="size-4 animate-spin text-muted-foreground" />
   };
 
   if (!user) {

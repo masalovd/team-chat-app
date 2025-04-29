@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader, Plus } from "lucide-react";
+import { LoaderIcon, Plus } from "lucide-react";
 
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
@@ -27,7 +27,7 @@ export const WorkspaceSwitcher = () => {
       <DropdownMenuTrigger asChild>
         <Button className="size-9 relative overflow-hidden bg-[#ABABAD] hover:bg-[#ABABAD]/75 text-slate-800 font-semibold text-xl ">
           {isLoadingWorkspace ? (
-            <Loader className="size-5 animate-spin shrink-0" />
+            <LoaderIcon className="size-5 animate-spin shrink-0" />
           ) : (
             currentWorkspace?.name.charAt(0).toUpperCase()
           )}

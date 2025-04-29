@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { Loader, TriangleAlert } from "lucide-react";
+import { LoaderIcon, TriangleAlert } from "lucide-react";
 
 import { useGetChannels } from "@/features/channels/api/use-get-channels";
 import { useCurrentMember } from "@/features/members/api/use-current-member";
@@ -49,7 +49,7 @@ const WorkspaceIdPage = () => {
   if (isWorkspaceLoading || isChannelsLoading || isCurrentMemberLoading) {
     return (
       <div className="h-full flex-1 flex items-center justify-center flex-col gap-2">
-        <Loader className="size-6 animate-spin text-muted-foreground" />
+        <LoaderIcon className="size-6 animate-spin text-muted-foreground" />
       </div>
     );
   }
