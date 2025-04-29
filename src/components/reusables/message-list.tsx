@@ -45,7 +45,7 @@ export const MessageList = ({
   const [editingId, setEditingId] = useState<Id<"messages"> | null>(null);
 
   const workspaceId = useWorkspaceId();
-  const { data: currentMember } = useCurrentMember({ workspaceId })
+  const currentMember = useCurrentMember({ workspaceId })
 
   const groupedMessages = data?.reduce(
     (groups, message) => {
@@ -77,7 +77,6 @@ export const MessageList = ({
               differenceInMinutes(
                 new Date(message._creationTime),
                 new Date(prevMessage._creationTime)) < TIME_THRESHOLD;
-
             return (
               <Message
                 key={message._id}
@@ -85,7 +84,7 @@ export const MessageList = ({
                 memberId={message.memberId}
                 authorImage={message.user.image}
                 authorName={message.user.name}
-                isAuthor={message.memberId === currentMember?._id}
+                isAuthor={message.memberId === currentMember.data?._id}
                 reactions={message.reactions}
                 body={message.body}
                 image={message.image}
@@ -98,6 +97,7 @@ export const MessageList = ({
                 threadCount={message.threadCount}
                 threadImage={message.threadImage}
                 threadTimestamp={message.threadTimestamp}
+                threadName={message.threadName}
               />
             )
           })}

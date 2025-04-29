@@ -44,7 +44,7 @@ const ChannelIdPage = () => {
         isLoadingMore={status === "LoadingMore"}
         canLoadMore={status === "CanLoadMore"}
       />
-      <ChatInput placeholder={"Write a message"} />
+      <ChatInput placeholder={`Write a message to # ${channel.name}`} />
     </div>
   );
 }
