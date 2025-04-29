@@ -23,8 +23,8 @@ const schema = defineSchema({
   }).index("by_workspaceId", ["workspaceId"]),
   conversations: defineTable({
     workspaceId: v.id("workspaces"),
-    memberOneId: v.id("users"),
-    memberTwoId: v.id("users"),
+    memberOneId: v.id("members"),
+    memberTwoId: v.id("members"),
   }).index("by_workspaceId", ["workspaceId"]),
   messages: defineTable({
     body: v.string(),
