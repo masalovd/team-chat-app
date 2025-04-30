@@ -95,7 +95,7 @@ export const remove = mutation({
       throw new Error("Unauthorized");
     }
 
-    const [messages] = Promise.all([
+    const [messages] = await Promise.all([
       ctx.db
         .query("messages")
         .withIndex("by_channelId", (q) => q.eq("channelId", args.id))

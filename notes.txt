@@ -1,4 +1,0 @@
-npx convex dev --local --once
-https://labs.convex.dev/auth/setup
-npx convex env set AUTH_GOOGLE_ID 
-npx convex env set AUTH_GOOGLE_SECRET
