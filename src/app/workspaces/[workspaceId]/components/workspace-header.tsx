@@ -1,7 +1,9 @@
 import { ChevronDown, ListFilter, SquarePen } from "lucide-react";
-
-import { useState } from "react";
+import { toast } from "sonner";
 import { Doc } from "../../../../../convex/_generated/dataModel";
+
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 import {
   DropdownMenu,
@@ -10,6 +12,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator
+} from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
 import { Hint } from "@/components/reusables/hint";
 
@@ -17,9 +28,10 @@ import { PreferencesModal } from "./preferences-modal";
 import { InviteModal } from "./invite-modal";
 
 import { useConfirm } from "@/hooks/use-confirm";
-import { useCurrentMember } from "@/features/members/api/use-current-member";
-import { toast } from "sonner";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useRemoveMember } from "@/features/members/api/use-remove-member";
+import { useGetChannels } from "@/features/channels/api/use-get-channels";
+import { useGetMembers } from "@/features/members/api/use-get-members";
 
 
 interface WorkspaceHeaderProps {
@@ -33,6 +45,10 @@ export const WorkspaceHeader = ({
   member,
   isAdmin,
 }: WorkspaceHeaderProps) => {
+  const router = useRouter();
+  const workspaceId = useWorkspaceId();
+  const [open, setOpen] = useState(false);
+
   const [preferencesOpen, setPreferencesOpen] = useState(false);
   const [inviteOpen, setInviteOpen] = useState(false);
 
@@ -43,6 +59,18 @@ export const WorkspaceHeader = ({
 
   const { mutate: removeMember } = useRemoveMember();
 
+  const { data: channels } = useGetChannels({ workspaceId });
+  const { data: members } = useGetMembers({ workspaceId });
+
+  const onChannelClick = (channelId: string) => {
+    setOpen(false);
+    router.push(`/workspaces/${workspaceId}/channels/${channelId}`);
+  }
+
+  const onMemberClick = (memberId: string) => {
+    setOpen(false);
+    router.push(`/workspaces/${workspaceId}/members/${memberId}`);
+  }
 
   const handleLeave = async () => {
     const ok = await confirmLeave();
@@ -137,10 +165,37 @@ export const WorkspaceHeader = ({
             </Button>
           </Hint>
           <Hint label="New message" side="bottom">
-            <Button variant="transparent" size="iconSm">
+            <Button
+              variant="transparent"
+              size="iconSm"
+              onClick={() => setOpen(true)}
+            >
               <SquarePen className="size-4" />
             </Button>
           </Hint>
+          <div>
+            <CommandDialog open={open} onOpenChange={setOpen}>
+              <CommandInput placeholder="Type a command or search..." />
+              <CommandList>
+                <CommandEmpty>No results found.</CommandEmpty>
+                <CommandGroup heading="Channels">
+                  {channels?.map((channel) => (
+                    <CommandItem key={channel._id} onSelect={() => onChannelClick(channel._id)}>
+                      {channel.name}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+                <CommandSeparator />
+                <CommandGroup heading="Conversations">
+                  {members?.map((member) => (
+                    <CommandItem key={member._id} onSelect={() => onMemberClick(member._id)}>
+                      {member.user.name}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </CommandDialog>
+          </div>
         </div>
       </div>
     </>
