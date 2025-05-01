@@ -14,11 +14,14 @@ import { WorkspaceHeader } from "./workspace-header";
 import { WorkspaceSection } from "./workspace-section";
 import { SidebarItem } from "./sidebar-item";
 import { UserItem } from "./user-item";
+import { useWorkspaceSidebar } from "@/features/workspaces/store/use-workspace-sidebar";
 
 export const WorkspaceSidebar = () => {
   const memberId = useMemberId();
   const workspaceId = useWorkspaceId();
   const channelId = useChannelId();
+
+  const { activeTab } = useWorkspaceSidebar();
 
   const setOpen = useCreateChannelModal((state) => state.setOpen);
 
@@ -64,35 +67,39 @@ export const WorkspaceSidebar = () => {
           icon={SendHorizonal}
         />
       </div>
-      <WorkspaceSection
-        label="Channels"
-        hint="New channel"
-        onNew={currentMember.role === "admin" ? () => setOpen(true) : undefined}
-      >
-        {channels?.map((item) => (
-          <SidebarItem
-            key={item._id}
-            id={item._id}
-            label={item.name}
-            icon={HashIcon}
-            variant={item._id === channelId ? "active" : "default"}
-          />
-        ))}
-      </WorkspaceSection>
-      <WorkspaceSection
-        label="Direct messages"
-        hint="New direct message"
-      >
-        {members?.map((item) => (
-          <UserItem
-            id={item._id}
-            key={item._id}
-            label={item.user.name}
-            image={item.user.image}
-            variant={item._id === memberId ? "active" : "default"}
-          />
-        ))}
-      </WorkspaceSection>
+      {(activeTab === "home" || activeTab === "channels") && (
+        <WorkspaceSection
+          label="Channels"
+          hint="New channel"
+          onNew={currentMember.role === "admin" ? () => setOpen(true) : undefined}
+        >
+          {channels?.map((item) => (
+            <SidebarItem
+              key={item._id}
+              id={item._id}
+              label={item.name}
+              icon={HashIcon}
+              variant={item._id === channelId ? "active" : "default"}
+            />
+          ))}
+        </WorkspaceSection>
+      )}
+      {(activeTab === "home" || activeTab === "messages") && (
+        <WorkspaceSection
+          label="Direct messages"
+          hint="New direct message"
+        >
+          {members?.map((item) => (
+            <UserItem
+              id={item._id}
+              key={item._id}
+              label={item.user.name}
+              image={item.user.image}
+              variant={item._id === memberId ? "active" : "default"}
+            />
+          ))}
+        </WorkspaceSection>
+      )}
     </div>
   );
 }
