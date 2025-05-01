@@ -41,10 +41,10 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
   const { mutate: updateMember } = useUpdateMember();
   const { mutate: removeMember } = useRemoveMember();
 
-  const [ConfirmLeaveDialog, confirmLeave] = useConfirm(
-    "Leave workspace",
-    "Are you sure you want to leave this workspace?"
-  );
+  // const [ConfirmLeaveDialog, confirmLeave] = useConfirm(
+  //   "Leave workspace",
+  //   "Are you sure you want to leave this workspace?"
+  // );
   const [ConfirmRemoveDialog, confirmRemove] = useConfirm(
     "Remove member",
     "Are you sure you want to remove this member?"
@@ -74,23 +74,23 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
     });
   };
 
-  const handleLeave = async () => {
-    const ok = await confirmLeave();
-    if (!ok) return;
-    removeMember(
-      {
-        id: memberId,
-      }, {
-      onSuccess: () => {
-        toast.success("You left the workspace");
-        onClose();
-      },
-      onError: (error) => {
-        console.error(error);
-        toast.error("Failed to leave the workspace");
-      }
-    });
-  };
+  // const handleLeave = async () => {
+  //   const ok = await confirmLeave();
+  //   if (!ok) return;
+  //   removeMember(
+  //     {
+  //       id: memberId,
+  //     }, {
+  //     onSuccess: () => {
+  //       toast.success("You left the workspace");
+  //       onClose();
+  //     },
+  //     onError: (error) => {
+  //       console.error(error);
+  //       toast.error("Failed to leave the workspace");
+  //     }
+  //   });
+  // };
 
   const handleRoleChange = async (role: "admin" | "member") => {
     const ok = await confirmChangeRole();
@@ -146,7 +146,7 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
   return (
     <>
       <ConfirmChangeRoleDialog />
-      <ConfirmLeaveDialog />
+      {/* <ConfirmLeaveDialog /> */}
       <ConfirmRemoveDialog />
       <div className="h-full flex flex-col">
         <div className="flex justify-between items-center h-[49px] px-4 border-b">
@@ -200,7 +200,7 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
                 </Button>
               </div>
             )}
-          {currentMember?.role !== "admin" &&
+          {/* {currentMember?.role !== "admin" &&
             currentMember?._id === memberId && (
               <div className="mt-4">
                 <Button
@@ -211,7 +211,7 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
                   Leave
                 </Button>
               </div>
-            )}
+            )} */}
         </div>
         <Separator />
         <div className="flex flex-col p-4">

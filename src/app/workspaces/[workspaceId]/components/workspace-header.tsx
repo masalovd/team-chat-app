@@ -12,24 +12,58 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Hint } from "@/components/reusables/hint";
+
 import { PreferencesModal } from "./preferences-modal";
 import { InviteModal } from "./invite-modal";
+
+import { useConfirm } from "@/hooks/use-confirm";
+import { useCurrentMember } from "@/features/members/api/use-current-member";
+import { toast } from "sonner";
+import { useRemoveMember } from "@/features/members/api/use-remove-member";
 
 
 interface WorkspaceHeaderProps {
   workspace: Doc<"workspaces">;
+  member: Doc<"members">;
   isAdmin: boolean;
 }
 
 export const WorkspaceHeader = ({
   workspace,
+  member,
   isAdmin,
 }: WorkspaceHeaderProps) => {
   const [preferencesOpen, setPreferencesOpen] = useState(false);
   const [inviteOpen, setInviteOpen] = useState(false);
 
+  const [ConfirmLeaveDialog, confirmLeave] = useConfirm(
+    "Leave workspace",
+    "Are you sure you want to leave this workspace?"
+  );
+
+  const { mutate: removeMember } = useRemoveMember();
+
+
+  const handleLeave = async () => {
+    const ok = await confirmLeave();
+    if (!ok) return;
+    removeMember(
+      {
+        id: member._id,
+      }, {
+      onSuccess: () => {
+        toast.success("You left the workspace");
+      },
+      onError: (error) => {
+        console.error(error);
+        toast.error("Failed to leave the workspace");
+      }
+    });
+  };
+
   return (
     <>
+      <ConfirmLeaveDialog />
       <InviteModal
         open={inviteOpen}
         setOpen={setInviteOpen}
@@ -80,6 +114,17 @@ export const WorkspaceHeader = ({
                   onClick={() => setPreferencesOpen(true)}
                 >
                   Preferences
+                </DropdownMenuItem>
+              </>
+            )}
+            {!isAdmin && (
+              <>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="cursor-pointer py-2"
+                  onClick={handleLeave}
+                >
+                  Leave
                 </DropdownMenuItem>
               </>
             )}

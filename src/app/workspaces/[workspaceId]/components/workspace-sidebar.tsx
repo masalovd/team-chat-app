@@ -49,6 +49,7 @@ export const WorkspaceSidebar = () => {
     <div className="flex flex-col gap-y-2 bg-[#7F92DC] h-full">
       <WorkspaceHeader
         workspace={currentWorkspace}
+        member={currentMember}
         isAdmin={currentMember.role === "admin"}
       />
       <div className="flex flex-col px-2 mt-3">
