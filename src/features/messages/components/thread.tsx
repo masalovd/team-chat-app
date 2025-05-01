@@ -63,7 +63,7 @@ export const Thread = ({
   const { mutate: generateUploadUrl } = useCGenerateUploadUrl();
 
   const { data: message, isLoading: isMessageLoading } = useGetMessage({ id: messageId });
-  const { data: currentMember, isLoading: IsCurrentMemberLoading } = useCurrentMember({ workspaceId });
+  const { data: currentMember } = useCurrentMember({ workspaceId });
 
   const { results, status, loadMore } = useGetMessages({
     channelId,

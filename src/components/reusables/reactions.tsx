@@ -4,7 +4,6 @@ import { Doc, Id } from "../../../convex/_generated/dataModel";
 
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useCurrentMember } from "@/features/members/api/use-current-member";
-import { Hint } from "./hint";
 import { EmojiPopover } from "./emoji-popover";
 import { SmilePlusIcon } from "lucide-react";
 

@@ -20,8 +20,8 @@ const formatDateLabel = (dateStr: string) => {
 };
 
 interface MessageListProps {
-  memberName?: string;
-  memberImage?: string;
+  // memberName?: string;
+  // memberImage?: string;
   channelName?: string;
   channelCreationTime?: number;
   variant?: "channel" | "conversation" | "thread";
@@ -32,8 +32,8 @@ interface MessageListProps {
 }
 
 export const MessageList = ({
-  memberName,
-  memberImage,
+  // memberName,
+  // memberImage,
   channelName,
   channelCreationTime,
   variant = "channel",

@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import { Id } from "../../../../../../../convex/_generated/dataModel";
 
 import { useRef, useState } from "react";
-import { useChannelId } from "@/hooks/use-channel-id";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useCreateMessage } from "@/features/messages/api/use-create-message";
 import { useCGenerateUploadUrl } from "@/features/upload/api/use-generate-upload-url";
