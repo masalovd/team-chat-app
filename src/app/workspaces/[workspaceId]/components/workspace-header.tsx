@@ -65,15 +65,15 @@ export const WorkspaceHeader = ({
                 </p>
               </div>
             </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              className="cursor-pointer py-2"
+              onClick={() => setInviteOpen(true)}
+            >
+              Invite people to {workspace.name}
+            </DropdownMenuItem>
             {isAdmin && (
               <>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  className="cursor-pointer py-2"
-                  onClick={() => setInviteOpen(true)}
-                >
-                  Invite people to {workspace.name}
-                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   className="cursor-pointer py-2"
