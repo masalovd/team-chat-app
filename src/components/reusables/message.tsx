@@ -18,6 +18,7 @@ import { useConfirm } from "@/hooks/use-confirm";
 import { useToggleReaction } from "@/features/reactions/api/use-toggle-reaction";
 
 import { usePanel } from "@/hooks/use-panel";
+import { FileMetadata } from "convex/server";
 
 const Renderer = dynamic(() => import("@/components/reusables/renderer"), {
   ssr: false,
@@ -27,13 +28,12 @@ const Editor = dynamic(() => import("@/components/reusables/editor"), {
 });
 
 const formatFullTime = (date: Date) => {
-  return `${
-    isToday(date)
-      ? "Today"
-      : isYesterday(date)
-        ? "Yesterday"
-        : format(date, "MMM d, yyyy")
-  } at ${format(date, "h:mm:ss a")}`;
+  return `${isToday(date)
+    ? "Today"
+    : isYesterday(date)
+      ? "Yesterday"
+      : format(date, "MMM d, yyyy")
+    } at ${format(date, "h:mm:ss a")}`;
 };
 
 interface MessageProps {
@@ -50,6 +50,7 @@ interface MessageProps {
   >;
   body: Doc<"messages">["body"];
   image?: string | null;
+  imageMetadata?: FileMetadata | null;
   createdAt: Doc<"messages">["_creationTime"];
   updatedAt: Doc<"messages">["updatedAt"];
   isEditing: boolean;
@@ -71,6 +72,7 @@ export const Message = ({
   reactions,
   body,
   image,
+  imageMetadata,
   createdAt,
   updatedAt,
   isEditing,
@@ -155,7 +157,7 @@ export const Message = ({
             "flex flex-col gap-2 p-1.5 px-5 hover:bg-gray-100/60 group relative",
             isEditing && "bg-[#F2C74433] hover:bg-[#F2C74433]",
             isRemovingMessage &&
-              "bg-rose-500/50 transform transition-all scale-y-0 origin-bottom duration-200",
+            "bg-rose-500/50 transform transition-all scale-y-0 origin-bottom duration-200",
           )}
         >
           <div className="flex items-start gap-2">
@@ -177,7 +179,7 @@ export const Message = ({
             ) : (
               <div className="flex flex-col w-full">
                 <Renderer value={body} />
-                <Thumbnail url={image} authorName={authorName} />
+                <Thumbnail url={image} authorName={authorName} metadata={imageMetadata} />
                 {updatedAt ? (
                   <span className="text-xs text-muted-foreground">
                     (edited)
@@ -220,7 +222,7 @@ export const Message = ({
           "flex flex-col gap-2 p-1.5 px-5 hover:bg-gray-100/60 group relative",
           isEditing && "bg-[#F2C74433] hover:bg-[#F2C74433]",
           isRemovingMessage &&
-            "bg-rose-500/50 transform transition-all scale-y-0 origin-bottom duration-200",
+          "bg-rose-500/50 transform transition-all scale-y-0 origin-bottom duration-200",
         )}
       >
         <div className="flex items-start gap-2">
@@ -260,7 +262,7 @@ export const Message = ({
                 </Hint>
               </div>
               <Renderer value={body} />
-              <Thumbnail url={image} authorName={authorName} />
+              <Thumbnail url={image} authorName={authorName} metadata={imageMetadata} />
               {updatedAt ? (
                 <span className="text-xs text-muted-foreground">(edited)</span>
               ) : null}

@@ -193,6 +193,9 @@ export const getById = query({
       image: message.image
         ? await ctx.storage.getUrl(message.image)
         : undefined,
+      imageMetadata: message.image
+        ? await ctx.storage.getMetadata(message.image)
+        : undefined,
       user,
       member,
       reactions: reactionsWithoutMemberId,
@@ -254,6 +257,9 @@ export const get = query({
             const image = message.image
               ? await ctx.storage.getUrl(message.image)
               : undefined;
+            const imageMetadata = message.image
+              ? await ctx.storage.getMetadata(message.image)
+              : undefined;
 
             // !: Counting will be done for equal reactions
             // !: In result we will get duplicate records (reaction, count)
@@ -295,6 +301,7 @@ export const get = query({
             return {
               ...message,
               image,
+              imageMetadata,
               member,
               user,
               reactions: reactionsWithoutMemberId,

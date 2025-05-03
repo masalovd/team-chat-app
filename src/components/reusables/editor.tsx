@@ -175,7 +175,7 @@ const Editor = ({
     <div className="flex flex-col">
       <input
         type="file"
-        accept="image/*"
+        accept="*"
         ref={imageElementRef}
         onChange={(event) => setImage(event.target.files![0])}
         className="hidden"

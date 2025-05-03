@@ -90,6 +90,7 @@ export const MessageList = ({
                 reactions={message.reactions}
                 body={message.body}
                 image={message.image}
+                imageMetadata={message.imageMetadata}
                 updatedAt={message.updatedAt}
                 createdAt={message._creationTime}
                 isEditing={editingId === message._id}

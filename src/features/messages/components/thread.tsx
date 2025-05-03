@@ -208,6 +208,7 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
                   reactions={message.reactions}
                   body={message.body}
                   image={message.image}
+                  imageMetadata={message.imageMetadata}
                   updatedAt={message.updatedAt}
                   createdAt={message._creationTime}
                   isEditing={editingId === message._id}
@@ -260,6 +261,7 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
             reactions={message.reactions}
             body={message.body}
             image={message.image}
+            imageMetadata={message.imageMetadata}
             updatedAt={message.updatedAt}
             createdAt={message._creationTime}
             isEditing={editingId === message._id}
