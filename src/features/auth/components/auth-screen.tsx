@@ -1,12 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SignInFlow } from "../types";
 import { SignInCard } from "./sign-in-card";
 import { SignUpCard } from "./sign-up-card";
+import { usePathname, useRouter } from "next/navigation";
 
 export const AuthScreen = () => {
   const [state, setState] = useState<SignInFlow>("signIn");
+  const pathName = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (pathName !== 'auth') {
+      router.push('/auth');
+    }
+  }, [pathName, router]);
 
   return (
     <div className="h-full flex items-center justify-center bg-[#5263a6]">

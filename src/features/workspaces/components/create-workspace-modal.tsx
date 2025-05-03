@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
+const MIN_NAME_LENGTH = 3
+
 export const CreateWorkspaceModal = () => {
   const router = useRouter();
   const { open, setOpen } = useCreateWorkspaceModal();
@@ -58,9 +60,12 @@ export const CreateWorkspaceModal = () => {
             onChange={(e) => setName(e.target.value)}
             required
             autoFocus
-            minLength={3}
+            minLength={MIN_NAME_LENGTH}
             placeholder="Workspace name e.g 'Family', 'Friends', 'Uni'"
           />
+          {name.length > 0 && name.length < MIN_NAME_LENGTH && (
+            <p className="text-sm text-destructive">Name must be at least 3 characters long.</p>
+          )}
           <div className="flex justify-end">
             <Button disabled={isPending}>Create</Button>
           </div>
