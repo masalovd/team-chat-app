@@ -59,12 +59,12 @@ export const CreateWorkspaceModal = () => {
             autoFocus
             minLength={3}
             placeholder="Workspace name e.g 'Family', 'Friends', 'Uni'" />
+          <div className="flex justify-end">
+            <Button disabled={isPending}>
+              Create
+            </Button>
+          </div>
         </form>
-        <div className="flex justify-end">
-          <Button disabled={isPending}>
-            Create
-          </Button>
-        </div>
       </DialogContent>
     </Dialog>
   )
