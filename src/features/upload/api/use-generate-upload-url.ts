@@ -49,7 +49,7 @@ export const useCGenerateUploadUrl = () => {
         options?.onSettled?.();
       }
     },
-    [mutation]
+    [mutation],
   );
 
   return {

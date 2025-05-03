@@ -39,11 +39,13 @@ export const Header = ({ title }: HeaderProps) => {
   const [editOpen, setEditOpen] = useState(false);
   const [ConfirmDialog, confirm] = useConfirm(
     "Delete this channel?",
-    "You are about to delete this channel. This action is irreversible"
+    "You are about to delete this channel. This action is irreversible",
   );
 
-  const { mutate: updateChannel, isPending: isUpdatingChannel } = useUpdateChannel();
-  const { mutate: removeChannel, isPending: isRemovingChannel } = useRemoveChannel();
+  const { mutate: updateChannel, isPending: isUpdatingChannel } =
+    useUpdateChannel();
+  const { mutate: removeChannel, isPending: isRemovingChannel } =
+    useRemoveChannel();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\s+/g, "-").toLowerCase();
@@ -63,35 +65,41 @@ export const Header = ({ title }: HeaderProps) => {
 
   const handleSave = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    updateChannel({
-      id: channelId,
-      name: name,
-    }, {
-      onSuccess: () => {
-        toast.success("Channel updated");
-        handleClose();
+    updateChannel(
+      {
+        id: channelId,
+        name: name,
       },
-      onError: () => {
-        toast.error("Failed to update channel");
-      }
-    });
+      {
+        onSuccess: () => {
+          toast.success("Channel updated");
+          handleClose();
+        },
+        onError: () => {
+          toast.error("Failed to update channel");
+        },
+      },
+    );
   };
 
   const handleRemove = async () => {
     const ok = await confirm();
     if (!ok) return;
 
-    removeChannel({
-      id: channelId,
-    }, {
-      onSuccess: () => {
-        toast.success("Channel removed");
-        router.replace(`/workspaces/${workspaceId}`);
+    removeChannel(
+      {
+        id: channelId,
       },
-      onError: () => {
-        toast.error("Failed to remove channel");
-      }
-    });
+      {
+        onSuccess: () => {
+          toast.success("Channel removed");
+          router.replace(`/workspaces/${workspaceId}`);
+        },
+        onError: () => {
+          toast.error("Failed to remove channel");
+        },
+      },
+    );
   };
 
   return (
@@ -146,10 +154,7 @@ export const Header = ({ title }: HeaderProps) => {
                   </form>
                   <DialogFooter>
                     <DialogClose asChild>
-                      <Button
-                        variant="outline"
-                        disabled={isUpdatingChannel}
-                      >
+                      <Button variant="outline" disabled={isUpdatingChannel}>
                         Cancel
                       </Button>
                     </DialogClose>

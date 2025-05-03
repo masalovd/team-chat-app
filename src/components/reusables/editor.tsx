@@ -1,6 +1,6 @@
 import "quill/dist/quill.snow.css";
 
-import Quill, { Delta, Op, type QuillOptions } from 'quill';
+import Quill, { Delta, Op, type QuillOptions } from "quill";
 
 import {
   MutableRefObject,
@@ -8,7 +8,7 @@ import {
   useLayoutEffect,
   useMemo,
   useRef,
-  useState
+  useState,
 } from "react";
 
 import { cn } from "@/lib/utils";
@@ -23,9 +23,9 @@ import { Hint } from "./hint";
 import { EmojiPopover } from "./emoji-popover";
 
 type EditorValue = {
-  image: File | null,
-  body: string,
-}
+  image: File | null;
+  body: string;
+};
 
 interface EditorProps {
   variant?: "create" | "update";
@@ -45,7 +45,6 @@ const Editor = ({
   disabled = false,
   innerRef,
   variant = "create",
-
 }: EditorProps) => {
   const [text, setText] = useState("");
   const [image, setImage] = useState<File | null>(null);
@@ -53,7 +52,7 @@ const Editor = ({
 
   const isEmpty = useMemo(
     () => !image && text.replace("/s*/g", "").trim().length === 0,
-    [text, image]
+    [text, image],
   );
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -76,7 +75,7 @@ const Editor = ({
 
     const container = containerRef.current;
     const editorContainer = container.appendChild(
-      container.ownerDocument.createElement("div")
+      container.ownerDocument.createElement("div"),
     );
 
     // Options for the `quil` object (our text editor)
@@ -104,7 +103,8 @@ const Editor = ({
                 const text = quill.getText();
                 const addedImage = imageElementRef.current?.files?.[0] || null;
 
-                const isEmpty = !!addedImage && text.replace("/s*/g", "").trim().length === 0;
+                const isEmpty =
+                  !!addedImage && text.replace("/s*/g", "").trim().length === 0;
 
                 if (isEmpty) return;
 
@@ -124,20 +124,20 @@ const Editor = ({
       },
     };
 
-    // Here we assign a quill object to quillRef.current property which we use 
+    // Here we assign a quill object to quillRef.current property which we use
     // inside `Editor` component
     const quill = new Quill(editorContainer, options);
     quillRef.current = quill;
     quillRef.current.focus();
 
-    // If innerRef came from outside we also assign `quil` object to 
+    // If innerRef came from outside we also assign `quil` object to
     // it's innerRef.current property to control it from outside
     if (innerRef) {
       innerRef.current = quill;
     }
 
     quill.setContents(defaultValueRef.current);
-    setText(quill.getText())
+    setText(quill.getText());
 
     quill.on(Quill.events.TEXT_CHANGE, () => {
       setText(quill.getText());
@@ -164,12 +164,12 @@ const Editor = ({
     if (toolbarElement) {
       toolbarElement.classList.toggle("hidden");
     }
-  }
+  };
 
   const onEmojiSelect = (emoji: any) => {
     const quill = quillRef.current;
-    quill?.insertText(quill?.getSelection()?.index || 0, emoji.native)
-  }
+    quill?.insertText(quill?.getSelection()?.index || 0, emoji.native);
+  };
 
   return (
     <div className="flex flex-col">
@@ -178,11 +178,14 @@ const Editor = ({
         accept="image/*"
         ref={imageElementRef}
         onChange={(event) => setImage(event.target.files![0])}
-        className="hidden" />
-      <div className={cn(
-        "flex flex-col border border-slate-200 rounded-md overflow-hidden focus-within:border-slate-300 focus-within:shadow-sm transition bg-white",
-        disabled && "opacity-50"
-      )}>
+        className="hidden"
+      />
+      <div
+        className={cn(
+          "flex flex-col border border-slate-200 rounded-md overflow-hidden focus-within:border-slate-300 focus-within:shadow-sm transition bg-white",
+          disabled && "opacity-50",
+        )}
+      >
         <div ref={containerRef} className="h-full ql-custom" />
         {!!image && (
           <div className="p-2">
@@ -206,7 +209,9 @@ const Editor = ({
           </div>
         )}
         <div className="flex px-2 pb-2 z-[5]">
-          <Hint label={isToolbarVisible ? "Hide formatting" : "Show formatting"}>
+          <Hint
+            label={isToolbarVisible ? "Hide formatting" : "Show formatting"}
+          >
             <Button
               disabled={disabled}
               variant={"ghost"}
@@ -217,11 +222,7 @@ const Editor = ({
             </Button>
           </Hint>
           <EmojiPopover onEmojiSelect={onEmojiSelect}>
-            <Button
-              disabled={disabled}
-              variant={"ghost"}
-              size={"iconSm"}
-            >
+            <Button disabled={disabled} variant={"ghost"} size={"iconSm"}>
               <Smile className="size-4" />
             </Button>
           </EmojiPopover>
@@ -252,8 +253,8 @@ const Editor = ({
                 onClick={() => {
                   onSubmit({
                     body: JSON.stringify(quillRef.current?.getContents()),
-                    image
-                  })
+                    image,
+                  });
                 }}
                 disabled={disabled || isEmpty}
                 className=" bg-[#7F92DC] hover:bg-[#7F92DC]/80 text-white"
@@ -268,8 +269,8 @@ const Editor = ({
               onClick={() => {
                 onSubmit({
                   body: JSON.stringify(quillRef.current?.getContents()),
-                  image
-                })
+                  image,
+                });
               }}
               size={"iconSm"}
               className={cn(
@@ -285,10 +286,12 @@ const Editor = ({
         </div>
       </div>
       {variant === "create" && (
-        <div className={cn(
-          "p-2 text-[10px] text-muted-foreground flex justify-end opacity-0 transition",
-          !isEmpty && "opacity-100"
-        )}>
+        <div
+          className={cn(
+            "p-2 text-[10px] text-muted-foreground flex justify-end opacity-0 transition",
+            !isEmpty && "opacity-100",
+          )}
+        >
           <p>
             <strong>Shif+Return</strong> to add a new line
           </p>
@@ -296,6 +299,6 @@ const Editor = ({
       )}
     </div>
   );
-}
+};
 
 export default Editor;

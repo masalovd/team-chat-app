@@ -10,18 +10,16 @@ import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from "@/components/ui/resizable"
+} from "@/components/ui/resizable";
 
 import { Thread } from "@/features/messages/components/thread";
-
 
 import { usePanel } from "@/hooks/use-panel";
 import { Profile } from "@/features/members/components/profile";
 
-
 interface WorkspaceIdLayoutProps {
   children: React.ReactNode;
-};
+}
 
 const WorkspaceIdLayout = ({ children }: WorkspaceIdLayoutProps) => {
   const { parentMessageId, profileMemberId, onClose } = usePanel();
@@ -33,12 +31,21 @@ const WorkspaceIdLayout = ({ children }: WorkspaceIdLayoutProps) => {
       <Toolbar />
       <div className="flex h-[calc(100vh-40px)]">
         <Sidebar />
-        <ResizablePanelGroup direction="horizontal" autoSaveId={"tca-workspace-layout"}>
-          <ResizablePanel defaultSize={20} minSize={12} className="bg-[#7F92DC]">
+        <ResizablePanelGroup
+          direction="horizontal"
+          autoSaveId={"tca-workspace-layout"}
+        >
+          <ResizablePanel
+            defaultSize={20}
+            minSize={12}
+            className="bg-[#7F92DC]"
+          >
             <WorkspaceSidebar />
           </ResizablePanel>
           <ResizableHandle withHandle />
-          <ResizablePanel defaultSize={80} minSize={20}>{children}</ResizablePanel>
+          <ResizablePanel defaultSize={80} minSize={20}>
+            {children}
+          </ResizablePanel>
           {showPanel && (
             <>
               <ResizableHandle withHandle />
@@ -63,8 +70,8 @@ const WorkspaceIdLayout = ({ children }: WorkspaceIdLayoutProps) => {
           )}
         </ResizablePanelGroup>
       </div>
-    </div >
+    </div>
   );
-}
+};
 
 export default WorkspaceIdLayout;

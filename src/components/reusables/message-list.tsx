@@ -40,12 +40,12 @@ export const MessageList = ({
   data,
   loadMore,
   isLoadingMore,
-  canLoadMore
+  canLoadMore,
 }: MessageListProps) => {
   const [editingId, setEditingId] = useState<Id<"messages"> | null>(null);
 
   const workspaceId = useWorkspaceId();
-  const currentMember = useCurrentMember({ workspaceId })
+  const currentMember = useCurrentMember({ workspaceId });
 
   const groupedMessages = data?.reduce(
     (groups, message) => {
@@ -57,7 +57,7 @@ export const MessageList = ({
       groups[dateKey].unshift(message);
       return groups;
     },
-    {} as Record<string, typeof data>
+    {} as Record<string, typeof data>,
   );
 
   return (
@@ -72,11 +72,13 @@ export const MessageList = ({
           </div>
           {messages.map((message, index) => {
             const prevMessage = messages[index - 1];
-            const isCompact = prevMessage &&
+            const isCompact =
+              prevMessage &&
               message.user?._id === prevMessage.user?._id &&
               differenceInMinutes(
                 new Date(message._creationTime),
-                new Date(prevMessage._creationTime)) < TIME_THRESHOLD;
+                new Date(prevMessage._creationTime),
+              ) < TIME_THRESHOLD;
             return (
               <Message
                 key={message._id}
@@ -99,7 +101,7 @@ export const MessageList = ({
                 threadTimestamp={message.threadTimestamp}
                 threadName={message.threadName}
               />
-            )
+            );
           })}
         </div>
       ))}
@@ -115,12 +117,13 @@ export const MessageList = ({
               },
               {
                 threshold: 1.0,
-              }
+              },
             );
             observer.observe(el);
             return () => observer.disconnect();
           }
-        }} />
+        }}
+      />
       {isLoadingMore && (
         <div className="text-center my-2 relative">
           <hr className="absolute top-1/2 left-0 right-0 border-t border-gray-300" />
@@ -129,11 +132,9 @@ export const MessageList = ({
           </span>
         </div>
       )}
-      {variant === "channel" &&
-        channelName &&
-        channelCreationTime && (
-          <ChannelHero name={channelName} creationTime={channelCreationTime} />
-        )}
+      {variant === "channel" && channelName && channelCreationTime && (
+        <ChannelHero name={channelName} creationTime={channelCreationTime} />
+      )}
     </div>
   );
-}
+};

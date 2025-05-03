@@ -52,7 +52,7 @@ npx convex dev --local --once
 ### 🌐 Google OAuth
 
 The setup guide(follow it):  
-  [Google OAuth Config](https://labs.convex.dev/auth/config/oauth/google)
+ [Google OAuth Config](https://labs.convex.dev/auth/config/oauth/google)
 
 ---
 
@@ -62,4 +62,3 @@ The setup guide(follow it):
 npx convex dev
 npm run dev
 ```
-

@@ -54,7 +54,7 @@ export const useUpdateMember = () => {
         options?.onSettled?.();
       }
     },
-    [mutation]
+    [mutation],
   );
 
   return {

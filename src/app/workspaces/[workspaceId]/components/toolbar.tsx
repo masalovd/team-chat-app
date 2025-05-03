@@ -11,7 +11,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator
+  CommandSeparator,
 } from "@/components/ui/command";
 
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
@@ -34,12 +34,12 @@ export const Toolbar = () => {
   const onChannelClick = (channelId: string) => {
     setOpen(false);
     router.push(`/workspaces/${workspaceId}/channels/${channelId}`);
-  }
+  };
 
   const onMemberClick = (memberId: string) => {
     setOpen(false);
     router.push(`/workspaces/${workspaceId}/members/${memberId}`);
-  }
+  };
 
   return (
     <nav className="bg-[#5263a6] flex items-center justify-between h-10 px-1.5">
@@ -51,9 +51,7 @@ export const Toolbar = () => {
           onClick={() => setOpen(true)}
         >
           <Search className="size-4 text-white mr-2" />
-          <span className="text-white text-xs">
-            Search {workspace?.name}
-          </span>
+          <span className="text-white text-xs">Search {workspace?.name}</span>
         </Button>
         <CommandDialog open={open} onOpenChange={setOpen}>
           <CommandInput placeholder="Type a command or search..." />
@@ -61,7 +59,10 @@ export const Toolbar = () => {
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup heading="Channels">
               {channels?.map((channel) => (
-                <CommandItem key={channel._id} onSelect={() => onChannelClick(channel._id)}>
+                <CommandItem
+                  key={channel._id}
+                  onSelect={() => onChannelClick(channel._id)}
+                >
                   {channel.name}
                 </CommandItem>
               ))}
@@ -69,7 +70,10 @@ export const Toolbar = () => {
             <CommandSeparator />
             <CommandGroup heading="Conversations">
               {members?.map((member) => (
-                <CommandItem key={member._id} onSelect={() => onMemberClick(member._id)}>
+                <CommandItem
+                  key={member._id}
+                  onSelect={() => onMemberClick(member._id)}
+                >
                   {member.user.name}
                 </CommandItem>
               ))}
@@ -84,4 +88,4 @@ export const Toolbar = () => {
       </div>
     </nav>
   );
-}
+};

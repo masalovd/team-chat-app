@@ -1,6 +1,12 @@
 import { FcGoogle } from "react-icons/fc";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { AuthProvider, SignInFlow } from "../types";
@@ -10,7 +16,7 @@ import { useAuthActions } from "@convex-dev/auth/react";
 
 interface SignUpCardProps {
   setState: (state: SignInFlow) => void;
-};
+}
 
 export const SignUpCard = ({ setState }: SignUpCardProps) => {
   const { signIn } = useAuthActions();
@@ -26,34 +32,36 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      setError("Passwords don't match!")
+      setError("Passwords don't match!");
+      return;
+    }
+
+    if (password.length < 8) {
+      setError("Password length should be greater than 8!");
+      return;
     }
 
     setPending(true);
     signIn("password", { name, email, password, flow: "signUp" })
       .catch(() => {
-        setError("Something went wrong!");
+        setError("Something went wrong during sign up.");
       })
       .finally(() => {
         setPending(false);
       });
-
-  }
+  };
 
   const handleProviderSignUp = (value: AuthProvider) => {
     setPending(true);
-    signIn(value)
-      .finally(() => {
-        setPending(false);
-      });
-  }
+    signIn(value).finally(() => {
+      setPending(false);
+    });
+  };
 
   return (
     <Card className="w-full h-full p-8">
       <CardHeader className="px-0 pt-0">
-        <CardTitle className="font-bold text-xl">
-          Sign up to continue
-        </CardTitle>
+        <CardTitle className="font-bold text-xl">Sign up to continue</CardTitle>
         <CardDescription>
           Please enter your email and password to sign up.
         </CardDescription>
@@ -98,7 +106,12 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
             type="password"
             required
           />
-          <Button type="submit" className="w-full" size={"lg"} disabled={pending}>
+          <Button
+            type="submit"
+            className="w-full"
+            size={"lg"}
+            disabled={pending}
+          >
             Sign In
           </Button>
         </form>
@@ -107,7 +120,9 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
           <Button
             disabled={pending}
             variant={"outline"}
-            onClick={() => { handleProviderSignUp("google") }}
+            onClick={() => {
+              handleProviderSignUp("google");
+            }}
             size={"lg"}
             className="w-full relative"
           >
@@ -116,7 +131,11 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
           </Button>
         </div>
         <p className="text-xs text-center text-muted-foreground">
-          Already have an account? <span className="text-sky-700 hover:underline cursor-pointer" onClick={() => setState("signIn")}>
+          Already have an account?{" "}
+          <span
+            className="text-sky-700 hover:underline cursor-pointer"
+            onClick={() => setState("signIn")}
+          >
             Sign in
           </span>
         </p>

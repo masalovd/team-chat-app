@@ -20,11 +20,16 @@ const JoinPage = () => {
   const router = useRouter();
 
   const workspaceId = useWorkspaceId();
-  const { data: workspaceInfo, isLoading } = useGetWorkspaceInfo({ id: workspaceId });
+  const { data: workspaceInfo, isLoading } = useGetWorkspaceInfo({
+    id: workspaceId,
+  });
 
   const { mutate, isPending } = useJoin();
 
-  const isMember = useMemo(() => workspaceInfo?.isMember, [workspaceInfo?.isMember]);
+  const isMember = useMemo(
+    () => workspaceInfo?.isMember,
+    [workspaceInfo?.isMember],
+  );
 
   useEffect(() => {
     if (isMember) {
@@ -33,19 +38,22 @@ const JoinPage = () => {
   }, [isMember, router, workspaceId]);
 
   const handleComplete = (value: string) => {
-    mutate({
-      workspaceId,
-      joinCode: value
-    }, {
-      onSuccess: (id) => {
-        router.replace(`/workspaces/${id}`)
-        toast.success("You have joined to the workspace!")
+    mutate(
+      {
+        workspaceId,
+        joinCode: value,
       },
-      onError: () => {
-        toast.error("Failed to join a workspace!")
-      }
-    })
-  }
+      {
+        onSuccess: (id) => {
+          router.replace(`/workspaces/${id}`);
+          toast.success("You have joined to the workspace!");
+        },
+        onError: () => {
+          toast.error("Failed to join a workspace!");
+        },
+      },
+    );
+  };
 
   if (isLoading) {
     return (
@@ -60,7 +68,9 @@ const JoinPage = () => {
       <Image src="/golub.svg" width={60} height={60} alt="Logo" />
       <div className="flex flex-col gap-y-4 items-center justify-center max-w-md">
         <div className="flex flex-col gap-y-2 items-center justify-center">
-          <h1 className="text-2xl font-bold">Join a {workspaceInfo?.name} workspace</h1>
+          <h1 className="text-2xl font-bold">
+            Join a {workspaceInfo?.name} workspace
+          </h1>
           <p className="text-md text-muted-foreground">
             Enter the workspace code to join
           </p>
@@ -70,7 +80,7 @@ const JoinPage = () => {
           classNames={{
             container: cn(
               "flex gap-x-2",
-              isPending && "opacity-50 cursor-not-allowed"
+              isPending && "opacity-50 cursor-not-allowed",
             ),
             character:
               "uppercase h-auto rounded-md border border-ray-300 flex items-center justify-center text-lg font-medium text-gray-500",
@@ -89,6 +99,6 @@ const JoinPage = () => {
       </div>
     </div>
   );
-}
+};
 
 export default JoinPage;

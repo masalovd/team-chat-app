@@ -15,7 +15,7 @@ export const create = mutation({
     const member = await ctx.db
       .query("members")
       .withIndex("by_workspaceId_userId", (q) =>
-        q.eq("workspaceId", args.workspaceId).eq("userId", userId)
+        q.eq("workspaceId", args.workspaceId).eq("userId", userId),
       )
       .unique();
 
@@ -51,7 +51,7 @@ export const update = mutation({
     const member = await ctx.db
       .query("members")
       .withIndex("by_workspaceId_userId", (q) =>
-        q.eq("workspaceId", channel.workspaceId).eq("userId", userId)
+        q.eq("workspaceId", channel.workspaceId).eq("userId", userId),
       )
       .unique();
 
@@ -87,7 +87,7 @@ export const remove = mutation({
     const member = await ctx.db
       .query("members")
       .withIndex("by_workspaceId_userId", (q) =>
-        q.eq("workspaceId", channel.workspaceId).eq("userId", userId)
+        q.eq("workspaceId", channel.workspaceId).eq("userId", userId),
       )
       .unique();
 
@@ -132,7 +132,7 @@ export const getById = query({
     const member = await ctx.db
       .query("members")
       .withIndex("by_workspaceId_userId", (q) =>
-        q.eq("workspaceId", channel.workspaceId).eq("userId", userId)
+        q.eq("workspaceId", channel.workspaceId).eq("userId", userId),
       )
       .unique();
 
@@ -158,7 +158,7 @@ export const get = query({
     const member = await ctx.db
       .query("members")
       .withIndex("by_workspaceId_userId", (q) =>
-        q.eq("workspaceId", args.workspaceId).eq("userId", userId)
+        q.eq("workspaceId", args.workspaceId).eq("userId", userId),
       )
       .unique();
 

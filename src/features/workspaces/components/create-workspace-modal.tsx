@@ -12,7 +12,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
 export const CreateWorkspaceModal = () => {
@@ -37,8 +37,9 @@ export const CreateWorkspaceModal = () => {
           toast.success("Workspace has been created successfully!");
           router.push(`/workspaces/${id}`);
           handleClose();
-        }
-      })
+        },
+      },
+    );
   };
 
   return (
@@ -58,14 +59,13 @@ export const CreateWorkspaceModal = () => {
             required
             autoFocus
             minLength={3}
-            placeholder="Workspace name e.g 'Family', 'Friends', 'Uni'" />
+            placeholder="Workspace name e.g 'Family', 'Friends', 'Uni'"
+          />
           <div className="flex justify-end">
-            <Button disabled={isPending}>
-              Create
-            </Button>
+            <Button disabled={isPending}>Create</Button>
           </div>
         </form>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};

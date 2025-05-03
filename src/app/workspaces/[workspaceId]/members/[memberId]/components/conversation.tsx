@@ -20,7 +20,9 @@ export const Conversation = ({ id }: ConversationProps) => {
   const memberId = useMemberId();
 
   const { onOpenProfile } = usePanel();
-  const { data: member, isLoading: isMemberLoading } = useGetMember({ memberId });
+  const { data: member, isLoading: isMemberLoading } = useGetMember({
+    memberId,
+  });
   const { results, status, loadMore } = useGetMessages({
     conversationId: id,
   });
@@ -31,7 +33,7 @@ export const Conversation = ({ id }: ConversationProps) => {
         <LoaderIcon className="size-6 animate-spin text-muted-foreground" />
       </div>
     );
-  };
+  }
 
   return (
     <div className="flex flex-col h-full">
@@ -54,5 +56,5 @@ export const Conversation = ({ id }: ConversationProps) => {
         conversationId={id}
       />
     </div>
-  )
+  );
 };

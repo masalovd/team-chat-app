@@ -24,60 +24,68 @@ interface PreferencesModalProps {
   initialValue: string;
   open: boolean;
   setOpen: (open: boolean) => void;
-};
+}
 
 export const PreferencesModal = ({
   initialValue,
   open,
-  setOpen
+  setOpen,
 }: PreferencesModalProps) => {
   const router = useRouter();
   const workspaceId = useWorkspaceId();
   const [ConfirmDialog, confirm] = useConfirm(
     "Are you sure?",
-    "This action is irreversible."
+    "This action is irreversible.",
   );
 
   const [value, setValue] = useState(initialValue);
   const [editOpen, setEditOpen] = useState(false);
 
-  const { mutate: updateWorkspace, isPending: isUpdatingWorkspace } = useUpdateWorkspace();
-  const { mutate: removeWorkspace, isPending: isRemovingWorkspace } = useRemoveWorkspace();
+  const { mutate: updateWorkspace, isPending: isUpdatingWorkspace } =
+    useUpdateWorkspace();
+  const { mutate: removeWorkspace, isPending: isRemovingWorkspace } =
+    useRemoveWorkspace();
 
   const handleRemoveWorkspace = async () => {
     const ok = await confirm();
 
     if (!ok) return;
 
-    removeWorkspace({
-      id: workspaceId,
-    }, {
-      onSuccess: () => {
-        toast.success("Workspace has been removed!");
-        router.replace("/");
+    removeWorkspace(
+      {
+        id: workspaceId,
       },
-      onError: () => {
-        toast.error("Failed to remove a workspace!")
+      {
+        onSuccess: () => {
+          toast.success("Workspace has been removed!");
+          router.replace("/");
+        },
+        onError: () => {
+          toast.error("Failed to remove a workspace!");
+        },
       },
-    })
-  }
+    );
+  };
 
   const handleUpdateWorkspace = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    updateWorkspace({
-      id: workspaceId,
-      name: value
-    }, {
-      onSuccess: () => {
-        toast.success("Workspace has been updated successfully!");
-        setEditOpen(false);
+    updateWorkspace(
+      {
+        id: workspaceId,
+        name: value,
       },
-      onError: () => {
-        toast.error("Failed to update a workspace!")
+      {
+        onSuccess: () => {
+          toast.success("Workspace has been updated successfully!");
+          setEditOpen(false);
+        },
+        onError: () => {
+          toast.error("Failed to update a workspace!");
+        },
       },
-    })
-  }
+    );
+  };
 
   return (
     <>
@@ -85,9 +93,7 @@ export const PreferencesModal = ({
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="p-0 bg-gray-50 overflow-hidden">
           <DialogHeader className="p-4 border-b">
-            <DialogTitle>
-              {value}
-            </DialogTitle>
+            <DialogTitle>{value}</DialogTitle>
           </DialogHeader>
           <div className="px-4 pb-4 flex flex-col gap-y-2">
             <Dialog open={editOpen} onOpenChange={setEditOpen}>
@@ -121,7 +127,8 @@ export const PreferencesModal = ({
                     <DialogClose asChild>
                       <Button
                         variant={"outline"}
-                        disabled={isUpdatingWorkspace}>
+                        disabled={isUpdatingWorkspace}
+                      >
                         Cancel
                       </Button>
                     </DialogClose>
@@ -142,5 +149,5 @@ export const PreferencesModal = ({
         </DialogContent>
       </Dialog>
     </>
-  )
-}
+  );
+};

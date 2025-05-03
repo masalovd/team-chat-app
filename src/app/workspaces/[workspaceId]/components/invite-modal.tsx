@@ -26,12 +26,12 @@ export const InviteModal = ({
   open,
   name,
   joinCode,
-  setOpen
+  setOpen,
 }: InviteModalProps) => {
   const workspaceId = useWorkspaceId();
   const [ConfirmDialog, confirm] = useConfirm(
     "Are you sure?",
-    "This will deactivate the current invite code and generate a new one"
+    "This will deactivate the current invite code and generate a new one",
   );
 
   const { mutate, isPending } = useNewJoinCode();
@@ -40,14 +40,17 @@ export const InviteModal = ({
     const ok = await confirm();
     if (!ok) return;
 
-    mutate({ id: workspaceId }, {
-      onSuccess: () => {
-        toast.success("Invite code has been generated successfully!");
+    mutate(
+      { id: workspaceId },
+      {
+        onSuccess: () => {
+          toast.success("Invite code has been generated successfully!");
+        },
+        onError: () => {
+          toast.error("Failed to generate an invite code!");
+        },
       },
-      onError: () => {
-        toast.error("Failed to generate an invite code!")
-      }
-    });
+    );
   };
 
   const handleCopy = () => {
@@ -64,20 +67,16 @@ export const InviteModal = ({
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>
-              Invite people to {name}
-            </DialogTitle>
+            <DialogTitle>Invite people to {name}</DialogTitle>
             <DialogDescription>
               Use the code below to invite people to your workspace
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-y-4 items-center justify-center py-10">
-            <p className="text-4xl font-bold tracking-widest uppercase">{joinCode}</p>
-            <Button
-              variant={"ghost"}
-              size={"sm"}
-              onClick={handleCopy}
-            >
+            <p className="text-4xl font-bold tracking-widest uppercase">
+              {joinCode}
+            </p>
+            <Button variant={"ghost"} size={"sm"} onClick={handleCopy}>
               Copy link
               <CopyIcon className="size-4 ml-2" />
             </Button>

@@ -8,8 +8,6 @@ import { Hint } from "@/components/reusables/hint";
 import { cn } from "@/lib/utils";
 import { useToggle } from "react-use";
 
-
-
 interface WorkspaceSectionProps {
   children: React.ReactNode;
   label: string;
@@ -17,12 +15,11 @@ interface WorkspaceSectionProps {
   onNew?: () => void;
 }
 
-
 export const WorkspaceSection = ({
   children,
   label,
   hint,
-  onNew
+  onNew,
 }: WorkspaceSectionProps) => {
   const [on, toggle] = useToggle(true);
 
@@ -35,10 +32,7 @@ export const WorkspaceSection = ({
           onClick={toggle}
         >
           <FaCaretRight
-            className={cn(
-              "size-4 transition-transform",
-              on && "rotate-90"
-            )}
+            className={cn("size-4 transition-transform", on && "rotate-90")}
           />
         </Button>
         <Button
@@ -63,4 +57,4 @@ export const WorkspaceSection = ({
       {on && children}
     </div>
   );
-}
+};

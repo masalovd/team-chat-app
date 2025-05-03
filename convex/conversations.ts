@@ -17,7 +17,7 @@ export const getOrCreate = mutation({
     const currentMember = await ctx.db
       .query("members")
       .withIndex("by_workspaceId_userId", (q) =>
-        q.eq("workspaceId", args.workspaceId).eq("userId", userId)
+        q.eq("workspaceId", args.workspaceId).eq("userId", userId),
       )
       .unique();
 
@@ -32,13 +32,13 @@ export const getOrCreate = mutation({
         q.or(
           q.and(
             q.eq(q.field("memberOneId"), currentMember._id),
-            q.eq(q.field("memberTwoId"), otherMember._id)
+            q.eq(q.field("memberTwoId"), otherMember._id),
           ),
           q.and(
             q.eq(q.field("memberOneId"), otherMember._id),
-            q.eq(q.field("memberTwoId"), currentMember._id)
-          )
-        )
+            q.eq(q.field("memberTwoId"), currentMember._id),
+          ),
+        ),
       )
       .unique();
 

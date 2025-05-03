@@ -3,7 +3,13 @@
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useCurrentUser } from "../api/use-current-user";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { LoaderIcon, LogOut } from "lucide-react";
 
 export const UserButton = () => {
@@ -11,12 +17,12 @@ export const UserButton = () => {
   const { data: user, isLoading } = useCurrentUser();
 
   if (isLoading) {
-    return <LoaderIcon className="size-4 animate-spin text-muted-foreground" />
-  };
+    return <LoaderIcon className="size-4 animate-spin text-muted-foreground" />;
+  }
 
   if (!user) {
     return null;
-  };
+  }
 
   const { name, image } = user;
   const avatarFallback = name!.charAt(0).toUpperCase();
@@ -26,9 +32,7 @@ export const UserButton = () => {
       <DropdownMenuTrigger className="outline-none relative">
         <Avatar className="size-10 hover:opacity-75 transition">
           <AvatarImage alt={name} src={image} />
-          <AvatarFallback>
-            {avatarFallback}
-          </AvatarFallback>
+          <AvatarFallback>{avatarFallback}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="center" side="right" className="w-60">

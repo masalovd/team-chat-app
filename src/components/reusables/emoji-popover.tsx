@@ -1,19 +1,19 @@
-import { useState } from 'react';
-import data from '@emoji-mart/data'
-import Picker from '@emoji-mart/react'
+import { useState } from "react";
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
 
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
 
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "@/components/ui/tooltip";
 
 interface EmojiPopoverProps {
   children: React.ReactNode;
@@ -24,7 +24,7 @@ interface EmojiPopoverProps {
 export const EmojiPopover = ({
   children,
   hint = "Emoji",
-  onEmojiSelect
+  onEmojiSelect,
 }: EmojiPopoverProps) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
@@ -47,9 +47,7 @@ export const EmojiPopover = ({
           delayDuration={50}
         >
           <PopoverTrigger asChild>
-            <TooltipTrigger asChild>
-              {children}
-            </TooltipTrigger>
+            <TooltipTrigger asChild>{children}</TooltipTrigger>
           </PopoverTrigger>
           <TooltipContent className="bg-black text-white border border-white/5">
             <p className="font-medium text-xs">{hint}</p>

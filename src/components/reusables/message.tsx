@@ -19,20 +19,22 @@ import { useToggleReaction } from "@/features/reactions/api/use-toggle-reaction"
 
 import { usePanel } from "@/hooks/use-panel";
 
-const Renderer = dynamic(
-  () => import("@/components/reusables/renderer"), { ssr: false }
-);
-const Editor = dynamic(
-  () => import("@/components/reusables/editor"), { ssr: false }
-);
+const Renderer = dynamic(() => import("@/components/reusables/renderer"), {
+  ssr: false,
+});
+const Editor = dynamic(() => import("@/components/reusables/editor"), {
+  ssr: false,
+});
 
 const formatFullTime = (date: Date) => {
-  return `${isToday(date)
-    ? "Today"
-    : isYesterday(date)
-      ? "Yesterday"
-      : format(date, "MMM d, yyyy")} at ${format(date, "h:mm:ss a")}`;
-}
+  return `${
+    isToday(date)
+      ? "Today"
+      : isYesterday(date)
+        ? "Yesterday"
+        : format(date, "MMM d, yyyy")
+  } at ${format(date, "h:mm:ss a")}`;
+};
 
 interface MessageProps {
   id: Id<"messages">;
@@ -78,27 +80,33 @@ export const Message = ({
   threadCount,
   threadImage,
   threadTimestamp,
-  threadName = "Member"
+  threadName = "Member",
 }: MessageProps) => {
   const { parentMessageId, onOpenMessage, onOpenProfile, onClose } = usePanel();
 
   const [ConfirmDialog, confirm] = useConfirm(
     "Delete a message?",
-    "This cannot be undone."
+    "This cannot be undone.",
   );
 
-  const { mutate: updateMessage, isPending: isUpdatingMessage } = useUpdateMessage();
-  const { mutate: removeMessage, isPending: isRemovingMessage } = useRemoveMessage();
-  const { mutate: toggleReaction, isPending: isTogglingReaction } = useToggleReaction();
+  const { mutate: updateMessage, isPending: isUpdatingMessage } =
+    useUpdateMessage();
+  const { mutate: removeMessage, isPending: isRemovingMessage } =
+    useRemoveMessage();
+  const { mutate: toggleReaction, isPending: isTogglingReaction } =
+    useToggleReaction();
 
   const isPending = isUpdatingMessage || isTogglingReaction;
 
   const handleReaction = (value: string) => {
-    toggleReaction({ messageId: id, value }, {
-      onError: () => {
-        toast.error("Failed to toggle a reaction!")
+    toggleReaction(
+      { messageId: id, value },
+      {
+        onError: () => {
+          toast.error("Failed to toggle a reaction!");
+        },
       },
-    });
+    );
   };
 
   const handleRemove = async () => {
@@ -106,41 +114,50 @@ export const Message = ({
 
     if (!ok) return;
 
-    removeMessage({ id }, {
-      onSuccess: () => {
-        toast.success("Message has been deleted!")
+    removeMessage(
+      { id },
+      {
+        onSuccess: () => {
+          toast.success("Message has been deleted!");
 
-        if (parentMessageId === id) {
-          onClose();
-        }
+          if (parentMessageId === id) {
+            onClose();
+          }
+        },
+        onError: () => {
+          toast.error("Failed to delete a message!");
+        },
       },
-      onError: () => {
-        toast.error("Failed to delete a message!")
-      },
-    });
+    );
   };
 
   const handleUpdate = ({ body }: { body: string }) => {
-    updateMessage({ id, body }, {
-      onSuccess: () => {
-        toast.success("Message has been updated!")
-        setEditingId(null);
+    updateMessage(
+      { id, body },
+      {
+        onSuccess: () => {
+          toast.success("Message has been updated!");
+          setEditingId(null);
+        },
+        onError: () => {
+          toast.error("Failed to update a message!");
+        },
       },
-      onError: () => {
-        toast.error("Failed to update a message!")
-      },
-    });
+    );
   };
 
   if (isCompact) {
     return (
       <>
         <ConfirmDialog />
-        <div className={cn(
-          "flex flex-col gap-2 p-1.5 px-5 hover:bg-gray-100/60 group relative",
-          isEditing && "bg-[#F2C74433] hover:bg-[#F2C74433]",
-          isRemovingMessage && "bg-rose-500/50 transform transition-all scale-y-0 origin-bottom duration-200"
-        )}>
+        <div
+          className={cn(
+            "flex flex-col gap-2 p-1.5 px-5 hover:bg-gray-100/60 group relative",
+            isEditing && "bg-[#F2C74433] hover:bg-[#F2C74433]",
+            isRemovingMessage &&
+              "bg-rose-500/50 transform transition-all scale-y-0 origin-bottom duration-200",
+          )}
+        >
           <div className="flex items-start gap-2">
             <Hint label={formatFullTime(new Date(createdAt))}>
               <button className="text-xs text-muted-foreground opacity-0 group-hover:opacity-100 hover:underline">
@@ -162,7 +179,9 @@ export const Message = ({
                 <Renderer value={body} />
                 <Thumbnail url={image} authorName={authorName} />
                 {updatedAt ? (
-                  <span className="text-xs text-muted-foreground">(edited)</span>
+                  <span className="text-xs text-muted-foreground">
+                    (edited)
+                  </span>
                 ) : null}
                 <Reactions data={reactions} onChange={handleReaction} />
                 <ThreadBar
@@ -196,18 +215,22 @@ export const Message = ({
   return (
     <>
       <ConfirmDialog />
-      <div className={cn(
-        "flex flex-col gap-2 p-1.5 px-5 hover:bg-gray-100/60 group relative",
-        isEditing && "bg-[#F2C74433] hover:bg-[#F2C74433]",
-        isRemovingMessage && "bg-rose-500/50 transform transition-all scale-y-0 origin-bottom duration-200"
-      )}>
+      <div
+        className={cn(
+          "flex flex-col gap-2 p-1.5 px-5 hover:bg-gray-100/60 group relative",
+          isEditing && "bg-[#F2C74433] hover:bg-[#F2C74433]",
+          isRemovingMessage &&
+            "bg-rose-500/50 transform transition-all scale-y-0 origin-bottom duration-200",
+        )}
+      >
         <div className="flex items-start gap-2">
-          <button onClick={() => onOpenProfile(memberId)} className="cursor-pointer">
+          <button
+            onClick={() => onOpenProfile(memberId)}
+            className="cursor-pointer"
+          >
             <Avatar>
               <AvatarImage src={authorImage} />
-              <AvatarFallback>
-                {avatarFallback}
-              </AvatarFallback>
+              <AvatarFallback>{avatarFallback}</AvatarFallback>
             </Avatar>
           </button>
           {isEditing ? (
@@ -266,4 +289,4 @@ export const Message = ({
       </div>
     </>
   );
-}
+};

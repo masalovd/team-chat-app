@@ -88,7 +88,7 @@ export const getById = query({
     const member = await ctx.db
       .query("members")
       .withIndex("by_workspaceId_userId", (q) =>
-        q.eq("workspaceId", args.id).eq("userId", userId)
+        q.eq("workspaceId", args.id).eq("userId", userId),
       )
       .unique();
 
@@ -117,7 +117,7 @@ export const getInfoById = query({
     const member = await ctx.db
       .query("members")
       .withIndex("by_workspaceId_userId", (q) =>
-        q.eq("workspaceId", args.id).eq("userId", userId)
+        q.eq("workspaceId", args.id).eq("userId", userId),
       )
       .unique();
 
@@ -145,7 +145,7 @@ export const update = mutation({
     const member = await ctx.db
       .query("members")
       .withIndex("by_workspaceId_userId", (q) =>
-        q.eq("workspaceId", args.id).eq("userId", userId)
+        q.eq("workspaceId", args.id).eq("userId", userId),
       )
       .unique();
 
@@ -173,7 +173,7 @@ export const remove = mutation({
     const member = await ctx.db
       .query("members")
       .withIndex("by_workspaceId_userId", (q) =>
-        q.eq("workspaceId", args.id).eq("userId", userId)
+        q.eq("workspaceId", args.id).eq("userId", userId),
       )
       .unique();
 
@@ -245,7 +245,7 @@ export const newJoinCode = mutation({
     const member = await ctx.db
       .query("members")
       .withIndex("by_workspaceId_userId", (q) =>
-        q.eq("workspaceId", args.id).eq("userId", userId)
+        q.eq("workspaceId", args.id).eq("userId", userId),
       )
       .unique();
 
@@ -285,7 +285,7 @@ export const join = mutation({
     const existingMember = await ctx.db
       .query("members")
       .withIndex("by_workspaceId_userId", (q) =>
-        q.eq("workspaceId", args.workspaceId).eq("userId", userId)
+        q.eq("workspaceId", args.workspaceId).eq("userId", userId),
       )
       .unique();
 

@@ -59,12 +59,12 @@ const populateMember = (ctx: QueryCtx, memberId: Id<"members">) => {
 const getMember = async (
   ctx: QueryCtx,
   workspaceId: Id<"workspaces">,
-  userId: Id<"users">
+  userId: Id<"users">,
 ) => {
   return ctx.db
     .query("members")
     .withIndex("by_workspaceId_userId", (q) =>
-      q.eq("workspaceId", workspaceId).eq("userId", userId)
+      q.eq("workspaceId", workspaceId).eq("userId", userId),
     )
     .unique();
 };
@@ -171,7 +171,7 @@ export const getById = query({
 
         if (existingReaction) {
           existingReaction.memberIds = Array.from(
-            new Set([...existingReaction.memberIds, reaction.memberId])
+            new Set([...existingReaction.memberIds, reaction.memberId]),
           );
         } else {
           acc.push({ ...reaction, memberIds: [reaction.memberId] });
@@ -181,11 +181,11 @@ export const getById = query({
       [] as (Doc<"reactions"> & {
         count: number;
         memberIds: Id<"members">[];
-      })[]
+      })[],
     );
 
     const reactionsWithoutMemberId = dedupedReactions.map(
-      ({ memberId, ...rest }) => rest
+      ({ memberId, ...rest }) => rest,
     );
 
     return {
@@ -232,7 +232,7 @@ export const get = query({
         q
           .eq("channelId", args.channelId)
           .eq("parentMessageId", args.parentMessageId)
-          .eq("conversationId", _conversationId)
+          .eq("conversationId", _conversationId),
       )
       .order("desc")
       .paginate(args.paginationOpts);
@@ -268,14 +268,14 @@ export const get = query({
             const dedupedReactions = reactionsWithCounts.reduce(
               (acc, reaction) => {
                 const existingReaction = acc.find(
-                  (r) => r.value === reaction.value
+                  (r) => r.value === reaction.value,
                 );
                 // !: One member can choose the same reaction many times
                 // !: and each time a record with the equal data
                 // !: will be added to the DB, only _id and _creationTime will be different
                 if (existingReaction) {
                   existingReaction.memberIds = Array.from(
-                    new Set([...existingReaction.memberIds, reaction.memberId])
+                    new Set([...existingReaction.memberIds, reaction.memberId]),
                   );
                 } else {
                   acc.push({ ...reaction, memberIds: [reaction.memberId] });
@@ -285,11 +285,11 @@ export const get = query({
               [] as (Doc<"reactions"> & {
                 count: number;
                 memberIds: Id<"members">[];
-              })[]
+              })[],
             );
 
             const reactionsWithoutMemberId = dedupedReactions.map(
-              ({ memberId, ...rest }) => rest
+              ({ memberId, ...rest }) => rest,
             );
 
             return {
@@ -303,7 +303,7 @@ export const get = query({
               threadTimestamp: thread.timestamp,
               threadName: thread.name,
             };
-          })
+          }),
         )
       ).filter((message) => message !== null),
     };

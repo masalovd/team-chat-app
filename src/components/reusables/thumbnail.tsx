@@ -1,5 +1,10 @@
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "../ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
 
 interface ThumbnailProps {
   url: string | null | undefined;
@@ -30,5 +35,6 @@ export const Thumbnail = ({ url, authorName }: ThumbnailProps) => {
           className="rounded-md object-cover size-full"
         />
       </DialogContent>
-    </Dialog>)
-}
+    </Dialog>
+  );
+};

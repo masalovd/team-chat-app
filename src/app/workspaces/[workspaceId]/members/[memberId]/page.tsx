@@ -16,19 +16,23 @@ const MemberIdPage = () => {
   const memberId = useMemberId();
   const workspaceId = useWorkspaceId();
 
-  const [conversationId, setConversationId] = useState<Id<"conversations"> | null>(null);
+  const [conversationId, setConversationId] =
+    useState<Id<"conversations"> | null>(null);
 
   const { mutate, isPending } = useGetOrCreateConversation();
 
   useEffect(() => {
-    mutate({ workspaceId, memberId }, {
-      onSuccess: (conversationId) => {
-        setConversationId(conversationId);
+    mutate(
+      { workspaceId, memberId },
+      {
+        onSuccess: (conversationId) => {
+          setConversationId(conversationId);
+        },
+        onError: () => {
+          toast.error("Failed to get or create a conversation!");
+        },
       },
-      onError: () => {
-        toast.error("Failed to get or create a conversation!")
-      }
-    })
+    );
   }, [workspaceId, memberId, mutate]);
 
   if (isPending) {
@@ -37,7 +41,7 @@ const MemberIdPage = () => {
         <LoaderIcon className="size-6 animate-spin text-muted-foreground" />
       </div>
     );
-  };
+  }
 
   if (!conversationId) {
     return (
@@ -48,9 +52,9 @@ const MemberIdPage = () => {
         </span>
       </div>
     );
-  };
+  }
 
   return <Conversation id={conversationId} />;
-}
+};
 
 export default MemberIdPage;

@@ -55,7 +55,7 @@ export const useGetOrCreateConversation = () => {
         options?.onSettled?.();
       }
     },
-    [mutation]
+    [mutation],
   );
 
   return {

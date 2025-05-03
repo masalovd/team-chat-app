@@ -51,7 +51,7 @@ export const useNewJoinCode = () => {
         options?.onSettled?.();
       }
     },
-    [mutation]
+    [mutation],
   );
 
   return {

@@ -12,7 +12,8 @@ export const Sidebar = () => {
   return (
     <div className="w-[70px] h-full bg-[#5263a6] flex flex-col gap-y-4 items-center pt-[9px] pb-3">
       <WorkspaceSwitcher />
-      <SidebarButton icon={Home}
+      <SidebarButton
+        icon={Home}
         label="Home"
         isActive={activeTab === "home"}
         onClick={() => setActiveTab("home")}
@@ -34,4 +35,4 @@ export const Sidebar = () => {
       </div>
     </div>
   );
-}
+};

@@ -10,17 +10,25 @@ import { useCreateWorkspaceModal } from "@/features/workspaces/store/use-create-
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export const WorkspaceSwitcher = () => {
   const router = useRouter();
   const workspaceId = useWorkspaceId();
   const setOpen = useCreateWorkspaceModal((state) => state.setOpen);
 
-  const { data: currentWorkspace, isLoading: isLoadingWorkspace } = useGetWorkspace({ id: workspaceId });
+  const { data: currentWorkspace, isLoading: isLoadingWorkspace } =
+    useGetWorkspace({ id: workspaceId });
   const { data: workspaces } = useGetWorkspaces();
 
-  const filteredWorkspaces = workspaces?.filter((workspace) => workspace._id !== currentWorkspace?._id);
+  const filteredWorkspaces = workspaces?.filter(
+    (workspace) => workspace._id !== currentWorkspace?._id,
+  );
 
   return (
     <DropdownMenu modal={false}>
@@ -64,4 +72,4 @@ export const WorkspaceSwitcher = () => {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+};

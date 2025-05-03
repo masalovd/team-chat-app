@@ -25,7 +25,7 @@ export const useGetMessages = ({
       parentMessageId,
       conversationId,
     },
-    { initialNumItems: BATCH_SIZE }
+    { initialNumItems: BATCH_SIZE },
   );
 
   return {

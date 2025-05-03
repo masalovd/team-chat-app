@@ -52,7 +52,7 @@ export const useUpdateChannel = () => {
         options?.onSettled?.();
       }
     },
-    [mutation]
+    [mutation],
   );
 
   return {

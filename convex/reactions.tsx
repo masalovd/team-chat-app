@@ -6,12 +6,12 @@ import { getAuthUserId } from "@convex-dev/auth/server";
 const getMember = async (
   ctx: QueryCtx,
   workspaceId: Id<"workspaces">,
-  userId: Id<"users">
+  userId: Id<"users">,
 ) => {
   return ctx.db
     .query("members")
     .withIndex("by_workspaceId_userId", (q) =>
-      q.eq("workspaceId", workspaceId).eq("userId", userId)
+      q.eq("workspaceId", workspaceId).eq("userId", userId),
     )
     .unique();
 };
@@ -46,15 +46,15 @@ export const toggle = mutation({
         q.and(
           q.eq(q.field("messageId"), args.messageId),
           q.eq(q.field("memberId"), member._id),
-          q.eq(q.field("value"), args.value)
-        )
+          q.eq(q.field("value"), args.value),
+        ),
       )
       .first();
 
     if (existingMessageReactionFromUser) {
       await ctx.db.delete(existingMessageReactionFromUser._id);
 
-      return (existingMessageReactionFromUser._id);
+      return existingMessageReactionFromUser._id;
     } else {
       const reactionId = await ctx.db.insert("reactions", {
         workspaceId: message.workspaceId,
@@ -64,5 +64,5 @@ export const toggle = mutation({
       });
       return reactionId;
     }
-  }
+  },
 });

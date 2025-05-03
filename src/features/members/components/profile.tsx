@@ -35,8 +35,11 @@ interface ProfileProps {
 export const Profile = ({ memberId, onClose }: ProfileProps) => {
   const workspaceId = useWorkspaceId();
 
-  const { data: currentMember, isLoading: isCurrentMemberLoading } = useCurrentMember({ workspaceId });
-  const { data: member, isLoading: isMemberLoading } = useGetMember({ memberId });
+  const { data: currentMember, isLoading: isCurrentMemberLoading } =
+    useCurrentMember({ workspaceId });
+  const { data: member, isLoading: isMemberLoading } = useGetMember({
+    memberId,
+  });
 
   const { mutate: updateMember } = useUpdateMember();
   const { mutate: removeMember } = useRemoveMember();
@@ -47,11 +50,11 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
   // );
   const [ConfirmRemoveDialog, confirmRemove] = useConfirm(
     "Remove member",
-    "Are you sure you want to remove this member?"
+    "Are you sure you want to remove this member?",
   );
   const [ConfirmChangeRoleDialog, confirmChangeRole] = useConfirm(
     "Change role",
-    "Are you sure you want to change this member's role?"
+    "Are you sure you want to change this member's role?",
   );
 
   const avatarFallback = member?.user.name?.charAt(0).toUpperCase() || "M";
@@ -62,16 +65,18 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
     removeMember(
       {
         id: memberId,
-      }, {
-      onSuccess: () => {
-        toast.success("Member removed");
-        onClose();
       },
-      onError: (error) => {
-        console.error(error);
-        toast.error("Failed to remove member");
-      }
-    });
+      {
+        onSuccess: () => {
+          toast.success("Member removed");
+          onClose();
+        },
+        onError: (error) => {
+          console.error(error);
+          toast.error("Failed to remove member");
+        },
+      },
+    );
   };
 
   // const handleLeave = async () => {
@@ -95,19 +100,22 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
   const handleRoleChange = async (role: "admin" | "member") => {
     const ok = await confirmChangeRole();
     if (!ok) return;
-    updateMember({
-      id: memberId,
-      role,
-    }, {
-      onSuccess: () => {
-        toast.success("Role changed");
-        onClose();
+    updateMember(
+      {
+        id: memberId,
+        role,
       },
-      onError: (error) => {
-        console.error(error);
-        toast.error("Failed to changed role");
-      }
-    });
+      {
+        onSuccess: () => {
+          toast.success("Role changed");
+          onClose();
+        },
+        onError: (error) => {
+          console.error(error);
+          toast.error("Failed to changed role");
+        },
+      },
+    );
   };
 
   if (isMemberLoading || isCurrentMemberLoading) {

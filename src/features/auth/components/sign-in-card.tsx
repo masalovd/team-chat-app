@@ -1,6 +1,12 @@
 import { FcGoogle } from "react-icons/fc";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { AuthProvider, SignInFlow } from "../types";
@@ -10,7 +16,7 @@ import { TriangleAlert } from "lucide-react";
 
 interface SignInCardProps {
   setState: (state: SignInFlow) => void;
-};
+}
 
 export const SignInCard = ({ setState }: SignInCardProps) => {
   const [pending, setPending] = useState(false);
@@ -36,18 +42,15 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
 
   const handleProviderSignIn = (value: AuthProvider) => {
     setPending(true);
-    signIn(value)
-      .finally(() => {
-        setPending(false);
-      });
-  }
+    signIn(value).finally(() => {
+      setPending(false);
+    });
+  };
 
   return (
     <Card className="w-full h-full p-8">
       <CardHeader className="px-0 pt-0">
-        <CardTitle className="font-bold text-xl">
-          Sign in to continue
-        </CardTitle>
+        <CardTitle className="font-bold text-xl">Sign in to continue</CardTitle>
         <CardDescription>
           Please enter your email and password to sign in.
         </CardDescription>
@@ -76,7 +79,12 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
             type="password"
             required
           />
-          <Button type="submit" className="w-full" size={"lg"} disabled={pending}>
+          <Button
+            type="submit"
+            className="w-full"
+            size={"lg"}
+            disabled={pending}
+          >
             Sign In
           </Button>
         </form>
@@ -94,7 +102,11 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
           </Button>
         </div>
         <p className="text-xs text-center text-muted-foreground">
-          Don&apos;t have an account? <span className="text-sky-700 hover:underline cursor-pointer" onClick={() => setState("signUp")}>
+          Don&apos;t have an account?{" "}
+          <span
+            className="text-sky-700 hover:underline cursor-pointer"
+            onClick={() => setState("signUp")}
+          >
             Sign up
           </span>
         </p>

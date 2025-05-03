@@ -21,7 +21,7 @@ const sidebarItemVariants = cva(
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 interface SidebarItemProps {

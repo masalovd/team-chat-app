@@ -12,9 +12,10 @@ interface ReactionsProps {
     Omit<Doc<"reactions">, "memberId"> & {
       count: number;
       memberIds: Id<"members">[];
-    }>;
+    }
+  >;
   onChange: (value: string) => void;
-};
+}
 
 export const Reactions = ({ data, onChange }: ReactionsProps) => {
   const workspaceId = useWorkspaceId();
@@ -22,7 +23,6 @@ export const Reactions = ({ data, onChange }: ReactionsProps) => {
   const currentMemberId = currentMember?._id;
 
   if (data.length === 0 || !currentMemberId) return null;
-
 
   return (
     <div className="flex items-center gap-1 mt-1 mb-1">
@@ -33,20 +33,20 @@ export const Reactions = ({ data, onChange }: ReactionsProps) => {
           className={cn(
             "h-6 px-2 rounded-full bg-slate-200/70 border border-transparent text-slate-800 flex items-center gap-x-1",
             reaction.memberIds.includes(currentMember._id) &&
-            "bg-blue-100/70 border-blue-500 text-white"
-          )}>
-          {reaction.value}
-          <span className={cn(
-            "text-xs text-muted-foreground font-semibold",
-            reaction.memberIds.includes(currentMember._id) &&
-            "text-blue-500"
+              "bg-blue-100/70 border-blue-500 text-white",
           )}
+        >
+          {reaction.value}
+          <span
+            className={cn(
+              "text-xs text-muted-foreground font-semibold",
+              reaction.memberIds.includes(currentMember._id) && "text-blue-500",
+            )}
           >
             {reaction.count}
           </span>
         </button>
-      ))
-      }
+      ))}
       <EmojiPopover
         hint={"Add reaction"}
         onEmojiSelect={(emoji) => onChange(emoji.native)}
@@ -55,6 +55,6 @@ export const Reactions = ({ data, onChange }: ReactionsProps) => {
           <SmilePlusIcon className="size-4" />
         </button>
       </EmojiPopover>
-    </div >
+    </div>
   );
 };

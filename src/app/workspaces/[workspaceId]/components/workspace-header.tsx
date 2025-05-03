@@ -19,7 +19,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator
+  CommandSeparator,
 } from "@/components/ui/command";
 import { Button } from "@/components/ui/button";
 import { Hint } from "@/components/reusables/hint";
@@ -32,7 +32,6 @@ import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useRemoveMember } from "@/features/members/api/use-remove-member";
 import { useGetChannels } from "@/features/channels/api/use-get-channels";
 import { useGetMembers } from "@/features/members/api/use-get-members";
-
 
 interface WorkspaceHeaderProps {
   workspace: Doc<"workspaces">;
@@ -54,7 +53,7 @@ export const WorkspaceHeader = ({
 
   const [ConfirmLeaveDialog, confirmLeave] = useConfirm(
     "Leave workspace",
-    "Are you sure you want to leave this workspace?"
+    "Are you sure you want to leave this workspace?",
   );
 
   const { mutate: removeMember } = useRemoveMember();
@@ -65,12 +64,12 @@ export const WorkspaceHeader = ({
   const onChannelClick = (channelId: string) => {
     setOpen(false);
     router.push(`/workspaces/${workspaceId}/channels/${channelId}`);
-  }
+  };
 
   const onMemberClick = (memberId: string) => {
     setOpen(false);
     router.push(`/workspaces/${workspaceId}/members/${memberId}`);
-  }
+  };
 
   const handleLeave = async () => {
     const ok = await confirmLeave();
@@ -78,15 +77,17 @@ export const WorkspaceHeader = ({
     removeMember(
       {
         id: member._id,
-      }, {
-      onSuccess: () => {
-        toast.success("You left the workspace");
       },
-      onError: (error) => {
-        console.error(error);
-        toast.error("Failed to leave the workspace");
-      }
-    });
+      {
+        onSuccess: () => {
+          toast.success("You left the workspace");
+        },
+        onError: (error) => {
+          console.error(error);
+          toast.error("Failed to leave the workspace");
+        },
+      },
+    );
   };
 
   return (
@@ -180,7 +181,10 @@ export const WorkspaceHeader = ({
                 <CommandEmpty>No results found.</CommandEmpty>
                 <CommandGroup heading="Channels">
                   {channels?.map((channel) => (
-                    <CommandItem key={channel._id} onSelect={() => onChannelClick(channel._id)}>
+                    <CommandItem
+                      key={channel._id}
+                      onSelect={() => onChannelClick(channel._id)}
+                    >
                       {channel.name}
                     </CommandItem>
                   ))}
@@ -188,7 +192,10 @@ export const WorkspaceHeader = ({
                 <CommandSeparator />
                 <CommandGroup heading="Conversations">
                   {members?.map((member) => (
-                    <CommandItem key={member._id} onSelect={() => onMemberClick(member._id)}>
+                    <CommandItem
+                      key={member._id}
+                      onSelect={() => onMemberClick(member._id)}
+                    >
                       {member.user.name}
                     </CommandItem>
                   ))}

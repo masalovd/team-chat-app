@@ -21,9 +21,9 @@ import { useChannelId } from "@/hooks/use-channel-id";
 
 const TIME_THRESHOLD = 5;
 
-const Editor = dynamic(
-  () => import("@/components/reusables/editor"), { ssr: false }
-);
+const Editor = dynamic(() => import("@/components/reusables/editor"), {
+  ssr: false,
+});
 
 const formatDateLabel = (dateStr: string) => {
   const date = new Date(dateStr);
@@ -43,31 +43,30 @@ type CreateMessageValues = {
 interface ThreadProps {
   messageId: Id<"messages">;
   onClose: () => void;
-};
+}
 
-export const Thread = ({
-  messageId,
-  onClose
-}: ThreadProps) => {
+export const Thread = ({ messageId, onClose }: ThreadProps) => {
   const workspaceId = useWorkspaceId();
-  const channelId = useChannelId()
+  const channelId = useChannelId();
 
   const editorRef = useRef<Quill | null>(null);
   const [isPending, setIsPending] = useState(false);
   // TODO: Use imageRef to clear the editor after the message is sent,
-  // TODO: don't re-render it every time with the help of this state 
+  // TODO: don't re-render it every time with the help of this state
   const [editorKey, setEditorKey] = useState(0);
   const [editingId, setEditingId] = useState<Id<"messages"> | null>(null);
 
   const { mutate: createMessage } = useCreateMessage();
   const { mutate: generateUploadUrl } = useCGenerateUploadUrl();
 
-  const { data: message, isLoading: isMessageLoading } = useGetMessage({ id: messageId });
+  const { data: message, isLoading: isMessageLoading } = useGetMessage({
+    id: messageId,
+  });
   const { data: currentMember } = useCurrentMember({ workspaceId });
 
   const { results, status, loadMore } = useGetMessages({
     channelId,
-    parentMessageId: messageId
+    parentMessageId: messageId,
   });
 
   const isLoadingMore = status === "LoadingMore";
@@ -75,10 +74,10 @@ export const Thread = ({
 
   const handleSubmit = async ({
     body,
-    image
+    image,
   }: {
-    body: string,
-    image: File | null
+    body: string;
+    image: File | null;
   }) => {
     try {
       setIsPending(true);
@@ -96,7 +95,7 @@ export const Thread = ({
         const url = await generateUploadUrl({}, { throwError: true });
 
         if (!url) {
-          throw new Error("Failed to generate an upload URL!")
+          throw new Error("Failed to generate an upload URL!");
         }
 
         const result = await fetch(url, {
@@ -106,7 +105,7 @@ export const Thread = ({
         });
 
         if (!result.ok) {
-          throw new Error("Failed to upload an image to the store!")
+          throw new Error("Failed to upload an image to the store!");
         }
 
         const { storageId } = await result.json();
@@ -122,7 +121,7 @@ export const Thread = ({
     } finally {
       setIsPending(false);
       editorRef.current?.enable(true);
-    };
+    }
   };
 
   const groupedMessages = results?.reduce(
@@ -135,9 +134,8 @@ export const Thread = ({
       groups[dateKey].unshift(message);
       return groups;
     },
-    {} as Record<string, typeof results>
+    {} as Record<string, typeof results>,
   );
-
 
   if (isMessageLoading || status === "LoadingFirstPage") {
     return (
@@ -153,7 +151,7 @@ export const Thread = ({
         </div>
       </div>
     );
-  };
+  }
 
   if (!message) {
     return (
@@ -170,7 +168,7 @@ export const Thread = ({
         </div>
       </div>
     );
-  };
+  }
 
   return (
     <div className="h-full flex flex-col">
@@ -191,11 +189,13 @@ export const Thread = ({
             </div>
             {messages.map((message, index) => {
               const prevMessage = messages[index - 1];
-              const isCompact = prevMessage &&
+              const isCompact =
+                prevMessage &&
                 message.user?._id === prevMessage.user?._id &&
                 differenceInMinutes(
                   new Date(message._creationTime),
-                  new Date(prevMessage._creationTime)) < TIME_THRESHOLD;
+                  new Date(prevMessage._creationTime),
+                ) < TIME_THRESHOLD;
 
               return (
                 <Message
@@ -219,7 +219,7 @@ export const Thread = ({
                   threadName={message.threadName}
                   hideThreadButton
                 />
-              )
+              );
             })}
           </div>
         ))}
@@ -235,12 +235,13 @@ export const Thread = ({
                 },
                 {
                   threshold: 1.0,
-                }
+                },
               );
               observer.observe(el);
               return () => observer.disconnect();
             }
-          }} />
+          }}
+        />
         {isLoadingMore && (
           <div className="text-center my-2 relative">
             <hr className="absolute top-1/2 left-0 right-0 border-t border-gray-300" />
@@ -277,5 +278,5 @@ export const Thread = ({
         />
       </div>
     </div>
-  )
-}
+  );
+};

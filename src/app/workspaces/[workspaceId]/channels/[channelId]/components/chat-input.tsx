@@ -21,30 +21,30 @@ type CreateMessageValues = {
   image?: Id<"_storage"> | undefined;
 };
 
-const Editor = dynamic(
-  () => import("@/components/reusables/editor"), { ssr: false }
-);
+const Editor = dynamic(() => import("@/components/reusables/editor"), {
+  ssr: false,
+});
 
 export const ChatInput = ({ placeholder }: ChatInputProps) => {
   const editorRef = useRef<Quill | null>(null);
   const [isPending, setIsPending] = useState(false);
 
   // TODO: Use imageRef to clear the editor after the message is sent,
-  // TODO: don't re-render it every time with the help of this state 
+  // TODO: don't re-render it every time with the help of this state
   const [editorKey, setEditorKey] = useState(0);
 
   const workspaceId = useWorkspaceId();
-  const channelId = useChannelId()
+  const channelId = useChannelId();
 
   const { mutate: createMessage } = useCreateMessage();
   const { mutate: generateUploadUrl } = useCGenerateUploadUrl();
 
   const handleSubmit = async ({
     body,
-    image
+    image,
   }: {
-    body: string,
-    image: File | null
+    body: string;
+    image: File | null;
   }) => {
     try {
       setIsPending(true);
@@ -61,7 +61,7 @@ export const ChatInput = ({ placeholder }: ChatInputProps) => {
         const url = await generateUploadUrl({}, { throwError: true });
 
         if (!url) {
-          throw new Error("Failed to generate an upload URL!")
+          throw new Error("Failed to generate an upload URL!");
         }
 
         const result = await fetch(url, {
@@ -71,7 +71,7 @@ export const ChatInput = ({ placeholder }: ChatInputProps) => {
         });
 
         if (!result.ok) {
-          throw new Error("Failed to upload an image to the store!")
+          throw new Error("Failed to upload an image to the store!");
         }
 
         const { storageId } = await result.json();
@@ -87,7 +87,7 @@ export const ChatInput = ({ placeholder }: ChatInputProps) => {
     } finally {
       setIsPending(false);
       editorRef.current?.enable(true);
-    };
+    }
   };
 
   return (
@@ -101,4 +101,4 @@ export const ChatInput = ({ placeholder }: ChatInputProps) => {
       />
     </div>
   );
-}
+};

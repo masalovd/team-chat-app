@@ -14,14 +14,16 @@ const ChannelIdPage = () => {
   const channelId = useChannelId();
 
   const { results, status, loadMore } = useGetMessages({ channelId });
-  const { data: channel, isLoading: isChannelLoading } = useGetChannel({ id: channelId });
+  const { data: channel, isLoading: isChannelLoading } = useGetChannel({
+    id: channelId,
+  });
 
   if (isChannelLoading || status === "LoadingFirstPage") {
     return (
       <div className="h-full flex-1 flex items-center justify-center">
         <LoaderIcon className="animate-spin size-5 text-muted-foreground" />
       </div>
-    )
+    );
   }
 
   if (!channel) {
@@ -30,7 +32,7 @@ const ChannelIdPage = () => {
         <AlertTriangle className="size-5 text-muted-foreground" />
         <span className="text-muted-foreground text-sm">Channel not found</span>
       </div>
-    )
+    );
   }
 
   return (
@@ -47,6 +49,6 @@ const ChannelIdPage = () => {
       <ChatInput placeholder={`Write a message to # ${channel.name}`} />
     </div>
   );
-}
+};
 
 export default ChannelIdPage;

@@ -39,20 +39,23 @@ export const CreateChannelModal = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    mutate({
-      name,
-      workspaceId,
-    }, {
-      onSuccess: (channelId) => {
-        router.push(`/workspaces/${workspaceId}/channels/${channelId}`);
-        handleClose();
-        toast.success("Channel has been created successfully!");
+    mutate(
+      {
+        name,
+        workspaceId,
       },
-      onError: () => {
-        toast.error("Failed to create channel!");
-      }
-    });
-  }
+      {
+        onSuccess: (channelId) => {
+          router.push(`/workspaces/${workspaceId}/channels/${channelId}`);
+          handleClose();
+          toast.success("Channel has been created successfully!");
+        },
+        onError: () => {
+          toast.error("Failed to create channel!");
+        },
+      },
+    );
+  };
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>

@@ -12,7 +12,12 @@ interface SidebarButtonProps {
   onClick: () => void;
 }
 
-export const SidebarButton = ({ icon: Icon, label, isActive, onClick }: SidebarButtonProps) => {
+export const SidebarButton = ({
+  icon: Icon,
+  label,
+  isActive,
+  onClick,
+}: SidebarButtonProps) => {
   return (
     <div className="flex flex-col items-center justify-center gap-y-0.5 cursor-pointer group">
       <Button
@@ -29,5 +34,5 @@ export const SidebarButton = ({ icon: Icon, label, isActive, onClick }: SidebarB
         {label}
       </span>
     </div>
-  )
-}
+  );
+};

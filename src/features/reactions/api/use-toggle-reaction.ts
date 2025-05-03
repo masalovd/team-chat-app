@@ -54,7 +54,7 @@ export const useToggleReaction = () => {
         options?.onSettled?.();
       }
     },
-    [mutation]
+    [mutation],
   );
 
   return {

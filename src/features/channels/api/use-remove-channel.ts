@@ -52,7 +52,7 @@ export const useRemoveChannel = () => {
         options?.onSettled?.();
       }
     },
-    [mutation]
+    [mutation],
   );
 
   return {

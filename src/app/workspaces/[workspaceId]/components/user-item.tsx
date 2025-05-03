@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 import { Id } from "../../../../../convex/_generated/dataModel";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 
-
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -21,7 +20,7 @@ const userItemVariants = cva(
     defaultVariants: {
       variant: "default",
     },
-  }
+  },
 );
 
 interface UserItemProps {
@@ -35,7 +34,7 @@ export const UserItem = ({
   id,
   label = "Member",
   image,
-  variant
+  variant,
 }: UserItemProps) => {
   const workspaceId = useWorkspaceId();
   const avatarFallback = label.charAt(0).toUpperCase();
@@ -50,12 +49,10 @@ export const UserItem = ({
       <Link href={`/workspaces/${workspaceId}/members/${id}`}>
         <Avatar className="size-5 mr-1">
           <AvatarImage src={image} />
-          <AvatarFallback className="text-xs">
-            {avatarFallback}
-          </AvatarFallback>
+          <AvatarFallback className="text-xs">{avatarFallback}</AvatarFallback>
         </Avatar>
         <span className="text-sm truncate">{label}</span>
       </Link>
     </Button>
-  )
-}
+  );
+};

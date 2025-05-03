@@ -12,5 +12,5 @@ export const useCreateWorkspaceModal = create<CreateWorkspaceModalState>()(
       set(() => ({
         open: newOpen,
       })),
-  })
+  }),
 );

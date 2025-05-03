@@ -17,15 +17,30 @@ const WorkspaceIdPage = () => {
 
   const { open, setOpen } = useCreateChannelModal();
 
-  const { data: currentMember, isLoading: isCurrentMemberLoading } = useCurrentMember({ workspaceId });
-  const { data: workspace, isLoading: isWorkspaceLoading } = useGetWorkspace({ id: workspaceId });
-  const { data: channels, isLoading: isChannelsLoading } = useGetChannels({ workspaceId });
+  const { data: currentMember, isLoading: isCurrentMemberLoading } =
+    useCurrentMember({ workspaceId });
+  const { data: workspace, isLoading: isWorkspaceLoading } = useGetWorkspace({
+    id: workspaceId,
+  });
+  const { data: channels, isLoading: isChannelsLoading } = useGetChannels({
+    workspaceId,
+  });
 
   const channelId = useMemo(() => channels?.[0]?._id, [channels]);
-  const isAdmin = useMemo(() => currentMember?.role === "admin", [currentMember?.role]);
+  const isAdmin = useMemo(
+    () => currentMember?.role === "admin",
+    [currentMember?.role],
+  );
 
   useEffect(() => {
-    if (isWorkspaceLoading || isChannelsLoading || isCurrentMemberLoading || !currentMember || !workspace) return;
+    if (
+      isWorkspaceLoading ||
+      isChannelsLoading ||
+      isCurrentMemberLoading ||
+      !currentMember ||
+      !workspace
+    )
+      return;
 
     if (channelId) {
       router.push(`/workspaces/${workspaceId}/channels/${channelId}`);
@@ -43,8 +58,8 @@ const WorkspaceIdPage = () => {
     workspace,
     open,
     router,
-    setOpen
-  ])
+    setOpen,
+  ]);
 
   if (isWorkspaceLoading || isChannelsLoading || isCurrentMemberLoading) {
     return (
@@ -71,6 +86,6 @@ const WorkspaceIdPage = () => {
       <span className="text-sm text-muted-foreground">No channel found</span>
     </div>
   );
-}
+};
 
 export default WorkspaceIdPage;
