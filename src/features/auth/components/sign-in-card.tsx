@@ -48,19 +48,21 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
   };
 
   return (
-    <Card className="w-full h-full p-8">
+    <Card className={"w-full h-full p-8 "} >
       <CardHeader className="px-0 pt-0">
         <CardTitle className="font-bold text-xl">Sign in to continue</CardTitle>
         <CardDescription>
           Please enter your email and password to sign in.
         </CardDescription>
       </CardHeader>
-      {error && (
-        <div className="bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-destructive mb-0.6">
-          <TriangleAlert className="size-4" />
-          {error}
-        </div>
-      )}
+      {
+        error && (
+          <div className="bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-destructive mb-0.6">
+            <TriangleAlert className="size-4" />
+            {error}
+          </div>
+        )
+      }
       <CardContent className="space-y-5 px-0 pb-0">
         <form onSubmit={handlePasswordSignIn} className="space-y-2.5">
           <Input
