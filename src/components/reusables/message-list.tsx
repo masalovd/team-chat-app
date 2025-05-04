@@ -90,6 +90,7 @@ export const MessageList = ({
                 reactions={message.reactions}
                 body={message.body}
                 file={message.file}
+                filename={message.filename}
                 fileMetadata={message.fileMetadata}
                 updatedAt={message.updatedAt}
                 createdAt={message._creationTime}

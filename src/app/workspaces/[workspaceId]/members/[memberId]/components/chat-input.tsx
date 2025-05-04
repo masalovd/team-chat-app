@@ -19,6 +19,7 @@ type CreateMessageValues = {
   workspaceId: Id<"workspaces">;
   body: string;
   file?: Id<"_storage"> | undefined;
+  filename?: string;
 };
 
 const Editor = dynamic(() => import("@/components/reusables/editor"), {
@@ -54,6 +55,7 @@ export const ChatInput = ({ placeholder, conversationId }: ChatInputProps) => {
         workspaceId,
         conversationId,
         file: undefined,
+        filename: undefined,
       };
 
       if (file) {
@@ -76,6 +78,7 @@ export const ChatInput = ({ placeholder, conversationId }: ChatInputProps) => {
         const { storageId } = await result.json();
 
         values.file = storageId;
+        values.filename = file.name;
       }
 
       await createMessage(values, { throwError: true });

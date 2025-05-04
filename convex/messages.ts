@@ -319,6 +319,7 @@ export const create = mutation({
   args: {
     body: v.string(),
     file: v.optional(v.id("_storage")),
+    filename: v.optional(v.string()),
     workspaceId: v.id("workspaces"),
     channelId: v.optional(v.id("channels")),
     conversationId: v.optional(v.id("conversations")),
@@ -351,6 +352,7 @@ export const create = mutation({
     const messageId = ctx.db.insert("messages", {
       body: args.body,
       file: args.file,
+      filename: args.filename,
       memberId: member._id,
       workspaceId: args.workspaceId,
       channelId: args.channelId,

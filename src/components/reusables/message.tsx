@@ -50,6 +50,7 @@ interface MessageProps {
   >;
   body: Doc<"messages">["body"];
   file?: string | null;
+  filename?: string | undefined;
   fileMetadata?: FileMetadata | null;
   createdAt: Doc<"messages">["_creationTime"];
   updatedAt: Doc<"messages">["updatedAt"];
@@ -72,6 +73,7 @@ export const Message = ({
   reactions,
   body,
   file,
+  filename,
   fileMetadata,
   createdAt,
   updatedAt,
@@ -179,7 +181,7 @@ export const Message = ({
             ) : (
               <div className="flex flex-col w-full">
                 <Renderer value={body} />
-                <Thumbnail url={file} authorName={authorName} metadata={fileMetadata} />
+                <Thumbnail url={file} authorName={authorName} filename={filename} metadata={fileMetadata} />
                 {updatedAt ? (
                   <span className="text-xs text-muted-foreground">
                     (edited)
@@ -262,7 +264,7 @@ export const Message = ({
                 </Hint>
               </div>
               <Renderer value={body} />
-              <Thumbnail url={file} authorName={authorName} metadata={fileMetadata} />
+              <Thumbnail url={file} authorName={authorName} filename={filename} metadata={fileMetadata} />
               {updatedAt ? (
                 <span className="text-xs text-muted-foreground">(edited)</span>
               ) : null}

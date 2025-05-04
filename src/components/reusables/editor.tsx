@@ -14,7 +14,7 @@ import {
 import { cn } from "@/lib/utils";
 
 import Image from "next/image";
-import { ImageIcon, PaperclipIcon, Smile, XIcon } from "lucide-react";
+import { FileIcon, PaperclipIcon, Smile, XIcon } from "lucide-react";
 import { PiTextAa } from "react-icons/pi";
 import { MdSend } from "react-icons/md";
 
@@ -24,6 +24,7 @@ import { EmojiPopover } from "./emoji-popover";
 
 type EditorValue = {
   file: File | null;
+  filename: string | undefined;
   body: string;
 };
 
@@ -102,14 +103,14 @@ const Editor = ({
               handler: () => {
                 const text = quill.getText();
                 const addedFile = fileElementRef.current?.files?.[0] || null;
-
+                const fileName = fileElementRef.current?.files?.[0].name;
                 const isEmpty =
                   !!addedFile && text.replace("/s*/g", "").trim().length === 0;
 
                 if (isEmpty) return;
 
                 const body = JSON.stringify(quill.getContents());
-                onSubmitRef.current({ body, file: addedFile });
+                onSubmitRef.current({ body, file: addedFile, filename: fileName });
               },
             },
             shift_enter: {
@@ -187,27 +188,40 @@ const Editor = ({
         )}
       >
         <div ref={containerRef} className="h-full ql-custom" />
-        {/* {!!file && (
+        {!!file && (
           <div className="p-2">
-            <div className="relative size-[62px] flex items-center justify-center group/image">
+            <div className="relative size-[62px] flex items-center justify-center group/file">
               <button
                 onClick={() => {
                   setFile(null);
-                  fileElementRef.current!.value = "";
+                  if (fileElementRef.current) fileElementRef.current.value = "";
                 }}
-                className="hidden group-hover/image:flex rounded-full bg-black/70 hover:bg-black absolute -top-2.5 -right-2.5 text-white size-6 z-[4] border-2 border-white items-center justify-center"
+                className="hidden group-hover/file:flex rounded-full bg-black/70 hover:bg-black absolute -top-2.5 -right-2.5 text-white size-6 z-[4] border-2 border-white items-center justify-center"
               >
                 <XIcon className="size-3.5" />
               </button>
-              <Image
-                src={URL.createObjectURL(image)}
-                alt="Uploaded"
-                fill
-                className="rounded-xl overflow-hidden object-cover"
-              />
+
+              {file.type.startsWith("image/") ? (
+                <Image
+                  src={URL.createObjectURL(file)}
+                  alt="Uploaded"
+                  fill
+                  className="rounded-xl overflow-hidden object-cover"
+                />
+              ) : (
+                <div className="w-full h-full p-2 border rounded-xl bg-slate-100 flex flex-col items-center justify-center text-center">
+                  <FileIcon className="size-5 text-slate-600 mb-1" />
+                  <p className="text-[10px] text-slate-700 truncate max-w-[60px]">
+                    {file.name}
+                  </p>
+                  <p className="text-[10px] text-muted-foreground">
+                    {file.name.split(".").pop()}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
-        )} */}
+        )}
         <div className="flex px-2 pb-2 z-[5]">
           <Hint
             label={isToolbarVisible ? "Hide formatting" : "Show formatting"}
@@ -254,6 +268,7 @@ const Editor = ({
                   onSubmit({
                     body: JSON.stringify(quillRef.current?.getContents()),
                     file,
+                    filename: file?.name
                   });
                 }}
                 disabled={disabled || isEmpty}
@@ -270,6 +285,7 @@ const Editor = ({
                 onSubmit({
                   body: JSON.stringify(quillRef.current?.getContents()),
                   file,
+                  filename: file?.name
                 });
               }}
               size={"iconSm"}

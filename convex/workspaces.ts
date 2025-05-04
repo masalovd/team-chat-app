@@ -2,6 +2,7 @@ import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { getAuthUserId } from "@convex-dev/auth/server";
 
+// Todo: use bcrypt
 const generateCode = (codeLength: number) => {
   const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
   let code = "";

@@ -38,6 +38,7 @@ type CreateMessageValues = {
   parentMessageId: Id<"messages">;
   body: string;
   file?: Id<"_storage"> | undefined;
+  filename?: string | undefined;
 };
 
 interface ThreadProps {
@@ -89,6 +90,7 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
         channelId,
         parentMessageId: messageId,
         file: undefined,
+        filename: undefined,
       };
 
       if (file) {
@@ -111,6 +113,7 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
         const { storageId } = await result.json();
 
         values.file = storageId;
+        values.filename = file.name;
       }
 
       await createMessage(values, { throwError: true });

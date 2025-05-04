@@ -29,6 +29,7 @@ const schema = defineSchema({
   messages: defineTable({
     body: v.string(),
     file: v.optional(v.id("_storage")),
+    filename: v.optional(v.string()),
     memberId: v.id("members"),
     workspaceId: v.id("workspaces"),
     channelId: v.optional(v.id("channels")),
