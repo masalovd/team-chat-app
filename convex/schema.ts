@@ -28,7 +28,7 @@ const schema = defineSchema({
   }).index("by_workspaceId", ["workspaceId"]),
   messages: defineTable({
     body: v.string(),
-    image: v.optional(v.id("_storage")),
+    file: v.optional(v.id("_storage")),
     memberId: v.id("members"),
     workspaceId: v.id("workspaces"),
     channelId: v.optional(v.id("channels")),

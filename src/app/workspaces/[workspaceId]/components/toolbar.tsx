@@ -54,7 +54,7 @@ export const Toolbar = () => {
           <span className="text-white text-xs">Search {workspace?.name}</span>
         </Button>
         <CommandDialog open={open} onOpenChange={setOpen}>
-          <CommandInput placeholder="Type a command or search..." />
+          <CommandInput placeholder="Search" />
           <CommandList>
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup heading="Channels">

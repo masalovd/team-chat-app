@@ -89,8 +89,8 @@ export const MessageList = ({
                 isAuthor={message.memberId === currentMember.data?._id}
                 reactions={message.reactions}
                 body={message.body}
-                image={message.image}
-                imageMetadata={message.imageMetadata}
+                file={message.file}
+                fileMetadata={message.fileMetadata}
                 updatedAt={message.updatedAt}
                 createdAt={message._creationTime}
                 isEditing={editingId === message._id}

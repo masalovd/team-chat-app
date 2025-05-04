@@ -14,7 +14,7 @@ import {
 import { cn } from "@/lib/utils";
 
 import Image from "next/image";
-import { ImageIcon, Smile, XIcon } from "lucide-react";
+import { ImageIcon, PaperclipIcon, Smile, XIcon } from "lucide-react";
 import { PiTextAa } from "react-icons/pi";
 import { MdSend } from "react-icons/md";
 
@@ -23,13 +23,13 @@ import { Hint } from "./hint";
 import { EmojiPopover } from "./emoji-popover";
 
 type EditorValue = {
-  image: File | null;
+  file: File | null;
   body: string;
 };
 
 interface EditorProps {
   variant?: "create" | "update";
-  onSubmit: ({ image, body }: EditorValue) => void;
+  onSubmit: ({ file, body }: EditorValue) => void;
   onCancel?: () => void;
   placeholder?: string;
   defaultValue?: Delta | Op[];
@@ -47,12 +47,12 @@ const Editor = ({
   variant = "create",
 }: EditorProps) => {
   const [text, setText] = useState("");
-  const [image, setImage] = useState<File | null>(null);
+  const [file, setFile] = useState<File | null>(null);
   const [isToolbarVisible, setIsToolbarVisible] = useState(true);
 
   const isEmpty = useMemo(
-    () => !image && text.replace("/s*/g", "").trim().length === 0,
-    [text, image],
+    () => !file && text.replace("/s*/g", "").trim().length === 0,
+    [text, file],
   );
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -61,7 +61,7 @@ const Editor = ({
   const quillRef = useRef<Quill | null>(null);
   const defaultValueRef = useRef(defaultValue);
   const disabledRef = useRef(disabled);
-  const imageElementRef = useRef<HTMLInputElement>(null);
+  const fileElementRef = useRef<HTMLInputElement>(null);
 
   useLayoutEffect(() => {
     onSubmitRef.current = onSubmit;
@@ -101,15 +101,15 @@ const Editor = ({
               key: "Enter",
               handler: () => {
                 const text = quill.getText();
-                const addedImage = imageElementRef.current?.files?.[0] || null;
+                const addedFile = fileElementRef.current?.files?.[0] || null;
 
                 const isEmpty =
-                  !!addedImage && text.replace("/s*/g", "").trim().length === 0;
+                  !!addedFile && text.replace("/s*/g", "").trim().length === 0;
 
                 if (isEmpty) return;
 
                 const body = JSON.stringify(quill.getContents());
-                onSubmitRef.current({ body, image: addedImage });
+                onSubmitRef.current({ body, file: addedFile });
               },
             },
             shift_enter: {
@@ -176,8 +176,8 @@ const Editor = ({
       <input
         type="file"
         accept="*"
-        ref={imageElementRef}
-        onChange={(event) => setImage(event.target.files![0])}
+        ref={fileElementRef}
+        onChange={(event) => setFile(event.target.files![0])}
         className="hidden"
       />
       <div
@@ -187,13 +187,13 @@ const Editor = ({
         )}
       >
         <div ref={containerRef} className="h-full ql-custom" />
-        {!!image && (
+        {/* {!!file && (
           <div className="p-2">
             <div className="relative size-[62px] flex items-center justify-center group/image">
               <button
                 onClick={() => {
-                  setImage(null);
-                  imageElementRef.current!.value = "";
+                  setFile(null);
+                  fileElementRef.current!.value = "";
                 }}
                 className="hidden group-hover/image:flex rounded-full bg-black/70 hover:bg-black absolute -top-2.5 -right-2.5 text-white size-6 z-[4] border-2 border-white items-center justify-center"
               >
@@ -207,7 +207,7 @@ const Editor = ({
               />
             </div>
           </div>
-        )}
+        )} */}
         <div className="flex px-2 pb-2 z-[5]">
           <Hint
             label={isToolbarVisible ? "Hide formatting" : "Show formatting"}
@@ -227,14 +227,14 @@ const Editor = ({
             </Button>
           </EmojiPopover>
           {variant === "create" && (
-            <Hint label="Attach image">
+            <Hint label="Attach file">
               <Button
                 disabled={disabled}
                 variant={"ghost"}
                 size={"iconSm"}
-                onClick={() => imageElementRef.current?.click()}
+                onClick={() => fileElementRef.current?.click()}
               >
-                <ImageIcon className="size-4" />
+                <PaperclipIcon className="size-4" />
               </Button>
             </Hint>
           )}
@@ -253,7 +253,7 @@ const Editor = ({
                 onClick={() => {
                   onSubmit({
                     body: JSON.stringify(quillRef.current?.getContents()),
-                    image,
+                    file,
                   });
                 }}
                 disabled={disabled || isEmpty}
@@ -269,7 +269,7 @@ const Editor = ({
               onClick={() => {
                 onSubmit({
                   body: JSON.stringify(quillRef.current?.getContents()),
-                  image,
+                  file,
                 });
               }}
               size={"iconSm"}

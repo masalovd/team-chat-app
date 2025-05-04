@@ -176,7 +176,7 @@ export const WorkspaceHeader = ({
           </Hint>
           <div>
             <CommandDialog open={open} onOpenChange={setOpen}>
-              <CommandInput placeholder="Type a command or search..." />
+              <CommandInput placeholder="Enter the channel or member name" />
               <CommandList>
                 <CommandEmpty>No results found.</CommandEmpty>
                 <CommandGroup heading="Channels">

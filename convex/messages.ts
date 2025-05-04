@@ -13,7 +13,7 @@ const populateThread = async (ctx: QueryCtx, messageId: Id<"messages">) => {
   if (messages.length === 0) {
     return {
       count: 0,
-      image: undefined,
+      memberAvatar: undefined,
       timestamp: 0,
       name: "",
     };
@@ -25,7 +25,7 @@ const populateThread = async (ctx: QueryCtx, messageId: Id<"messages">) => {
   if (!lastMessageMember) {
     return {
       count: 0,
-      image: undefined,
+      memberAvatar: undefined,
       timestamp: 0,
       name: "",
     };
@@ -35,7 +35,7 @@ const populateThread = async (ctx: QueryCtx, messageId: Id<"messages">) => {
 
   return {
     count: messages.length,
-    image: lastMessageUser?.image,
+    memberAvatar: lastMessageUser?.image,
     timestamp: lastMessage._creationTime,
     name: lastMessageUser?.name,
   };
@@ -190,11 +190,9 @@ export const getById = query({
 
     return {
       ...message,
-      image: message.image
-        ? await ctx.storage.getUrl(message.image)
-        : undefined,
-      imageMetadata: message.image
-        ? await ctx.storage.getMetadata(message.image)
+      file: message.file ? await ctx.storage.getUrl(message.file) : undefined,
+      fileMetadata: message.file
+        ? await ctx.storage.getMetadata(message.file)
         : undefined,
       user,
       member,
@@ -254,11 +252,11 @@ export const get = query({
 
             const reactions = await populateReactions(ctx, message._id);
             const thread = await populateThread(ctx, message._id);
-            const image = message.image
-              ? await ctx.storage.getUrl(message.image)
+            const file = message.file
+              ? await ctx.storage.getUrl(message.file)
               : undefined;
-            const imageMetadata = message.image
-              ? await ctx.storage.getMetadata(message.image)
+            const fileMetadata = message.file
+              ? await ctx.storage.getMetadata(message.file)
               : undefined;
 
             // !: Counting will be done for equal reactions
@@ -300,13 +298,13 @@ export const get = query({
 
             return {
               ...message,
-              image,
-              imageMetadata,
+              file,
+              fileMetadata,
               member,
               user,
               reactions: reactionsWithoutMemberId,
               threadCount: thread.count,
-              threadImage: thread.image,
+              threadImage: thread.memberAvatar,
               threadTimestamp: thread.timestamp,
               threadName: thread.name,
             };
@@ -320,7 +318,7 @@ export const get = query({
 export const create = mutation({
   args: {
     body: v.string(),
-    image: v.optional(v.id("_storage")),
+    file: v.optional(v.id("_storage")),
     workspaceId: v.id("workspaces"),
     channelId: v.optional(v.id("channels")),
     conversationId: v.optional(v.id("conversations")),
@@ -352,7 +350,7 @@ export const create = mutation({
 
     const messageId = ctx.db.insert("messages", {
       body: args.body,
-      image: args.image,
+      file: args.file,
       memberId: member._id,
       workspaceId: args.workspaceId,
       channelId: args.channelId,

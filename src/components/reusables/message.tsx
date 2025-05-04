@@ -49,8 +49,8 @@ interface MessageProps {
     }
   >;
   body: Doc<"messages">["body"];
-  image?: string | null;
-  imageMetadata?: FileMetadata | null;
+  file?: string | null;
+  fileMetadata?: FileMetadata | null;
   createdAt: Doc<"messages">["_creationTime"];
   updatedAt: Doc<"messages">["updatedAt"];
   isEditing: boolean;
@@ -71,8 +71,8 @@ export const Message = ({
   isAuthor,
   reactions,
   body,
-  image,
-  imageMetadata,
+  file,
+  fileMetadata,
   createdAt,
   updatedAt,
   isEditing,
@@ -179,7 +179,7 @@ export const Message = ({
             ) : (
               <div className="flex flex-col w-full">
                 <Renderer value={body} />
-                <Thumbnail url={image} authorName={authorName} metadata={imageMetadata} />
+                <Thumbnail url={file} authorName={authorName} metadata={fileMetadata} />
                 {updatedAt ? (
                   <span className="text-xs text-muted-foreground">
                     (edited)
@@ -262,7 +262,7 @@ export const Message = ({
                 </Hint>
               </div>
               <Renderer value={body} />
-              <Thumbnail url={image} authorName={authorName} metadata={imageMetadata} />
+              <Thumbnail url={file} authorName={authorName} metadata={fileMetadata} />
               {updatedAt ? (
                 <span className="text-xs text-muted-foreground">(edited)</span>
               ) : null}

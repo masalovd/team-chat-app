@@ -18,7 +18,7 @@ type CreateMessageValues = {
   conversationId: Id<"conversations">;
   workspaceId: Id<"workspaces">;
   body: string;
-  image?: Id<"_storage"> | undefined;
+  file?: Id<"_storage"> | undefined;
 };
 
 const Editor = dynamic(() => import("@/components/reusables/editor"), {
@@ -40,10 +40,10 @@ export const ChatInput = ({ placeholder, conversationId }: ChatInputProps) => {
 
   const handleSubmit = async ({
     body,
-    image,
+    file,
   }: {
     body: string;
-    image: File | null;
+    file: File | null;
   }) => {
     try {
       setIsPending(true);
@@ -53,10 +53,10 @@ export const ChatInput = ({ placeholder, conversationId }: ChatInputProps) => {
         body,
         workspaceId,
         conversationId,
-        image: undefined,
+        file: undefined,
       };
 
-      if (image) {
+      if (file) {
         const url = await generateUploadUrl({}, { throwError: true });
 
         if (!url) {
@@ -65,17 +65,17 @@ export const ChatInput = ({ placeholder, conversationId }: ChatInputProps) => {
 
         const result = await fetch(url, {
           method: "POST",
-          headers: { "Content-Type": image.type },
-          body: image,
+          headers: { "Content-Type": file.type },
+          body: file,
         });
 
         if (!result.ok) {
-          throw new Error("Failed to upload an image to the store!");
+          throw new Error("Failed to upload a file to the store!");
         }
 
         const { storageId } = await result.json();
 
-        values.image = storageId;
+        values.file = storageId;
       }
 
       await createMessage(values, { throwError: true });
