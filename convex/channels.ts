@@ -5,6 +5,7 @@ import { mutation, query } from "./_generated/server";
 export const create = mutation({
   args: {
     name: v.string(),
+    description: v.string(),
     workspaceId: v.id("workspaces"),
   },
   handler: async (ctx, args) => {
@@ -25,6 +26,7 @@ export const create = mutation({
 
     const channelId = await ctx.db.insert("channels", {
       name: parsedName,
+      description: args.description,
       workspaceId: args.workspaceId,
     });
 
@@ -36,6 +38,7 @@ export const update = mutation({
   args: {
     id: v.id("channels"),
     name: v.string(),
+    description: v.string(),
   },
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
@@ -63,6 +66,7 @@ export const update = mutation({
 
     await ctx.db.patch(args.id, {
       name: parsedName,
+      description: args.description,
     });
 
     return args.id;

@@ -37,7 +37,7 @@ const ChannelIdPage = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <Header title={channel.name} />
+      <Header title={channel.name} description={channel.description} />
       <MessageList
         channelName={channel.name}
         channelCreationTime={channel._creationTime}

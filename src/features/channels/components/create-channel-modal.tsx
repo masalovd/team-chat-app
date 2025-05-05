@@ -15,12 +15,14 @@ import { useRouter } from "next/navigation";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useCreateChannel } from "../api/use-create-channel";
 import { useCreateChannelModal } from "../store/use-create-channel-modal";
+import { Label } from "@/components/ui/label";
 
 export const CreateChannelModal = () => {
   const router = useRouter();
   const workspaceId = useWorkspaceId();
 
   const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
 
   const { open, setOpen } = useCreateChannelModal();
 
@@ -28,12 +30,18 @@ export const CreateChannelModal = () => {
 
   const handleClose = () => {
     setName("");
+    setDescription("");
     setOpen(false);
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleValueChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\s+/g, "-").toLowerCase();
     setName(value);
+  };
+
+  const handleDescriptionChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setDescription(value);
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -42,6 +50,7 @@ export const CreateChannelModal = () => {
     mutate(
       {
         name,
+        description,
         workspaceId,
       },
       {
@@ -64,17 +73,40 @@ export const CreateChannelModal = () => {
           <DialogTitle>Add a channel</DialogTitle>
         </DialogHeader>
         <form className="space-y-4" onSubmit={handleSubmit}>
-          <Input
-            value={name}
-            onChange={handleChange}
-            disabled={isPending}
-            autoFocus
-            placeholder="e.g. plan-budget"
-            required
-            minLength={3}
-            maxLength={80}
-          />
-          <div className="flex justify-end">
+          <div className="space-y-2">
+            <Label htmlFor="channel-name" className="text-sm font-medium text-gray-700">
+              Channel name
+            </Label>
+            <Input
+              id="channel-name"
+              value={name}
+              onChange={handleValueChange}
+              disabled={isPending}
+              autoFocus
+              placeholder="e.g. plan-budget"
+              required
+              minLength={3}
+              maxLength={80}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="channel-description" className="text-sm font-medium text-gray-700">
+              Description
+            </Label>
+            <Input
+              id="channel-description"
+              value={description}
+              onChange={handleDescriptionChange}
+              disabled={isPending}
+              placeholder="e.g. Channel for planning a budget"
+              required
+              minLength={3}
+              maxLength={150}
+            />
+          </div>
+
+          <div className="flex justify-end pt-2">
             <Button disabled={isPending}>Create</Button>
           </div>
         </form>

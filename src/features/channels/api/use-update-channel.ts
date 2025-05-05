@@ -4,7 +4,11 @@ import { useCallback, useMemo, useState } from "react";
 import { api } from "../../../../convex/_generated/api";
 import { Id } from "../../../../convex/_generated/dataModel";
 
-type RequestType = { name: string; id: Id<"channels"> };
+type RequestType = {
+  name: string;
+  description: string;
+  id: Id<"channels">;
+};
 type ResponseType = Id<"channels"> | null;
 type StatusType = "pending" | "success" | "error" | "settled" | null;
 

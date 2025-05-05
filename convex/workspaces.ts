@@ -40,6 +40,7 @@ export const create = mutation({
 
     await ctx.db.insert("channels", {
       name: "general",
+      description: "General channel present in every workspace by default.",
       workspaceId,
     });
 
