@@ -8,9 +8,11 @@ import { MessageList } from "@/components/reusables/message-list";
 
 import { usePanel } from "@/hooks/use-panel";
 import { useMemberId } from "@/hooks/use-member-id";
+import { useWorkspaceId } from "@/hooks/use-workspace-id";
 
 import { useGetMember } from "@/features/members/api/use-get-member";
 import { useGetMessages } from "@/features/messages/api/use-get-messages";
+import { useCurrentMember } from "@/features/members/api/use-current-member";
 
 interface ConversationProps {
   id: Id<"conversations">;
@@ -18,8 +20,12 @@ interface ConversationProps {
 
 export const Conversation = ({ id }: ConversationProps) => {
   const memberId = useMemberId();
+  const workspaceId = useWorkspaceId();
 
   const { onOpenProfile } = usePanel();
+  const {
+    data: currentMember,
+    isLoading: isCurrentMemberLoading } = useCurrentMember({ workspaceId });
   const { data: member, isLoading: isMemberLoading } = useGetMember({
     memberId,
   });
@@ -27,7 +33,9 @@ export const Conversation = ({ id }: ConversationProps) => {
     conversationId: id,
   });
 
-  if (isMemberLoading || status === "LoadingFirstPage") {
+  const isSelfConversation = currentMember?._id === memberId;
+
+  if (isMemberLoading || isCurrentMemberLoading || status === "LoadingFirstPage") {
     return (
       <div className="h-full flex items-center justify-center">
         <LoaderIcon className="size-6 animate-spin text-muted-foreground" />
@@ -38,9 +46,10 @@ export const Conversation = ({ id }: ConversationProps) => {
   return (
     <div className="flex flex-col h-full">
       <Header
-        memberName={member?.user.name}
-        memberImage={member?.user.image}
-        onClick={() => onOpenProfile(memberId)}
+        memberName={isSelfConversation ? "Saved messages" : member?.user.name}
+        memberImage={isSelfConversation ? undefined : member?.user.image}
+        onClick={isSelfConversation ? undefined : () => onOpenProfile(memberId)}
+        isSelf={isSelfConversation}
       />
       <MessageList
         variant={"conversation"}
@@ -52,7 +61,7 @@ export const Conversation = ({ id }: ConversationProps) => {
         canLoadMore={status === "CanLoadMore"}
       />
       <ChatInput
-        placeholder={`Write a message to ${member?.user.name}`}
+        placeholder={`Write a message to ${isSelfConversation ? "Saved messages" : member?.user.name}`}
         conversationId={id}
       />
     </div>

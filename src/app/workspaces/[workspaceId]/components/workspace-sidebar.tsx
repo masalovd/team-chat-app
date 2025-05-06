@@ -1,4 +1,5 @@
 import {
+  BookmarkIcon,
   HashIcon,
   LoaderIcon,
   MessageSquareText,
@@ -62,10 +63,10 @@ export const WorkspaceSidebar = () => {
         member={currentMember}
         isAdmin={currentMember.role === "admin"}
       />
-      <div className="flex flex-col px-2 mt-3">
+      {/* <div className="flex flex-col px-2 mt-3">
         <SidebarItem label="Threads" id="threads" icon={MessageSquareText} />
         <SidebarItem label="Drafts and Sent" id="drafts" icon={SendHorizonal} />
-      </div>
+      </div> */}
       {(activeTab === "home" || activeTab === "channels") && (
         <WorkspaceSection
           label="Channels"
@@ -87,15 +88,27 @@ export const WorkspaceSidebar = () => {
       )}
       {(activeTab === "home" || activeTab === "messages") && (
         <WorkspaceSection label="Direct messages" hint="New direct message">
-          {members?.map((item) => (
-            <UserItem
-              id={item._id}
-              key={item._id}
-              label={item.user.name}
-              image={item.user.image}
-              variant={item._id === memberId ? "active" : "default"}
-            />
-          ))}
+          {members
+            ?.slice() // create a shallow copy so original isn't mutated
+            .sort((a, b) => {
+              if (a._id === currentMember._id) return -1;
+              if (b._id === currentMember._id) return 1;
+              return 0;
+            })
+            .map((item) => {
+              const isCurrentUser = item._id === currentMember._id;
+
+              return (
+                <UserItem
+                  key={item._id}
+                  id={item._id}
+                  label={isCurrentUser ? "Saved messages" : item.user.name}
+                  image={item.user.image}
+                  variant={item._id === memberId ? "active" : "default"}
+                  icon={isCurrentUser ? BookmarkIcon : undefined}
+                />
+              );
+            })}
         </WorkspaceSection>
       )}
     </div>

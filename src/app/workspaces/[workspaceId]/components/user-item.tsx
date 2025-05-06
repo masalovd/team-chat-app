@@ -23,11 +23,15 @@ const userItemVariants = cva(
   },
 );
 
+import { LucideIcon } from "lucide-react";
+import { IconType } from "react-icons/lib";
+
 interface UserItemProps {
   id: Id<"members">;
   label?: string;
   image?: string;
   variant?: VariantProps<typeof userItemVariants>["variant"];
+  icon?: LucideIcon | IconType;
 }
 
 export const UserItem = ({
@@ -35,22 +39,27 @@ export const UserItem = ({
   label = "Member",
   image,
   variant,
+  icon: Icon,
 }: UserItemProps) => {
   const workspaceId = useWorkspaceId();
   const avatarFallback = label.charAt(0).toUpperCase();
 
   return (
     <Button
-      variant={"transparent"}
-      className={cn(userItemVariants({ variant: variant }))}
-      size={"sm"}
+      variant="transparent"
+      className={cn(userItemVariants({ variant }))}
+      size="sm"
       asChild
     >
       <Link href={`/workspaces/${workspaceId}/members/${id}`}>
-        <Avatar className="size-5 mr-1">
-          <AvatarImage src={image} />
-          <AvatarFallback className="text-xs">{avatarFallback}</AvatarFallback>
-        </Avatar>
+        {Icon ? (
+          <Icon className="size-5 mr-1 shrink-0" />
+        ) : (
+          <Avatar className="size-5 mr-1">
+            <AvatarImage src={image} />
+            <AvatarFallback className="text-xs">{avatarFallback}</AvatarFallback>
+          </Avatar>
+        )}
         <span className="text-sm truncate">{label}</span>
       </Link>
     </Button>
