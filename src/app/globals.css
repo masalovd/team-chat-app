@@ -177,3 +177,29 @@ body,
   scrollbar-width: thin;
   scrollbar-color: #dcdcdc #f8f8f8;
 }
+
+.workspace-section-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #a3b4e0 #7f92dc; /* thumb and track */
+
+  /* For Chrome, Edge, Safari */
+  overflow-y: auto;
+}
+
+.workspace-section-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.workspace-section-scrollbar::-webkit-scrollbar-track {
+  background: #7f92dc; /* match section background */
+}
+
+.workspace-section-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #a3b4e0; /* lighter thumb */
+  border-radius: 8px;
+  border: 2px solid #7f92dc; /* creates padding */
+}
+
+.workspace-section-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #8fa2d6; /* slightly darker on hover */
+}

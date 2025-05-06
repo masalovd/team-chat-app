@@ -24,8 +24,9 @@ export const WorkspaceSection = ({
   const [on, toggle] = useToggle(true);
 
   return (
-    <div className="flex flex-col mt-3 px-2">
-      <div className="flex items-center group">
+    <div className="flex flex-col h-full overflow-hidden">
+      {/* Header */}
+      <div className="flex items-center group px-2 mt-3 shrink-0">
         <Button
           variant="transparent"
           className="p-0.5 text-sm text-[#F9EDFFCC] shrink-0 size-6"
@@ -54,7 +55,17 @@ export const WorkspaceSection = ({
           </Hint>
         )}
       </div>
-      {on && children}
+      <div className="overflow-y-auto px-2 space-y-1 py-1 workspace-section-scrollbar">
+        {on ? (
+          children
+        ) : (
+          <div className="flex items-center justify-center h-full">
+            <p className="text-xs italic text-[#F9EDFF99] text-center">
+              Toggle {label.toLowerCase()} to see them
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
