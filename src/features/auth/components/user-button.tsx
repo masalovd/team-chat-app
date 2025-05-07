@@ -37,8 +37,8 @@ export const UserButton = () => {
         userId={user._id}
         open={userEditOpen}
         setOpen={setUserEditOpen}
-        initialName={user.name}
-        initialEmail={user.email}
+        initialName={user.name!}
+        initialEmail={user.email!}
         initialImage={user.image as Id<"_storage">}
       />
       <DropdownMenu modal={false}>

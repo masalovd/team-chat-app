@@ -20,6 +20,7 @@ import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
 import { useGetChannels } from "@/features/channels/api/use-get-channels";
 import { useGetMembers } from "@/features/members/api/use-get-members";
 import { useRouter } from "next/navigation";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 export const Toolbar = () => {
   const router = useRouter();
@@ -30,6 +31,7 @@ export const Toolbar = () => {
   const { data: members } = useGetMembers({ workspaceId });
 
   const [open, setOpen] = useState(false);
+  const [infoOpen, setInfoOpen] = useState(false);
 
   const onChannelClick = (channelId: string) => {
     setOpen(false);
@@ -82,9 +84,25 @@ export const Toolbar = () => {
         </CommandDialog>
       </div>
       <div className="ml-auto flex-1 flex items-center justify-end">
-        <Button variant={"transparent"} size={"iconSm"}>
-          <Info className="size-5 text-white" />
-        </Button>
+        <Dialog open={infoOpen} onOpenChange={setInfoOpen}>
+          <DialogTrigger asChild>
+            <Button variant="transparent" size="iconSm" onClick={() => setInfoOpen(true)}>
+              <Info className="size-5 text-white" />
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>About this app</DialogTitle>
+              <DialogDescription>
+                This is an open-source messaging app for teams and communities. Built with modern web technologies. Feel free to customize it!
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-4 text-sm">
+              <p>Visit the project on <a href="https://github.com/masalovd/team-chat-app" target="_blank" className="underline text-blue-500">GitHub</a>.</p>
+              <p>Version: 1.0.0</p>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </nav>
   );

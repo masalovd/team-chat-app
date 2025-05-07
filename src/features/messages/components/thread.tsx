@@ -211,6 +211,7 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
                   reactions={message.reactions}
                   body={message.body}
                   file={message.file}
+                  filename={message.filename}
                   fileMetadata={message.fileMetadata}
                   updatedAt={message.updatedAt}
                   createdAt={message._creationTime}
@@ -264,6 +265,7 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
             reactions={message.reactions}
             body={message.body}
             file={message.file}
+            filename={message.filename}
             fileMetadata={message.fileMetadata}
             updatedAt={message.updatedAt}
             createdAt={message._creationTime}

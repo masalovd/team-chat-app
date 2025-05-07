@@ -43,7 +43,6 @@ export function AuthScreen() {
               <SignUpCard setState={setState} />
             )}
           </div>
-
         </div>
       </section>
     </div>
