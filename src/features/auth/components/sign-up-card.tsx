@@ -112,7 +112,7 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
             size={"lg"}
             disabled={pending}
           >
-            Sign In
+            Sign up
           </Button>
         </form>
         <Separator />
